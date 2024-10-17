@@ -1,0 +1,33 @@
+<ion-app>
+  <ion-router-outlet>
+    <ion-content class="ion-padding">
+      <ion-header [translucent]="true">
+        <ion-toolbar class="toolbar-custom">
+          <ion-img src="assets/Match.png" alt="Logo" class="registro-logo"></ion-img>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-card>
+        <ion-card-content class="card-container">
+          <ion-text class="registro-titulo">     
+            <h1>Restablecer Contraseña</h1>
+          </ion-text>
+    
+          <ion-text class="registro-texto">
+            <p>Introduce tu usuario y te enviaremos instrucciones para restablecer tu contraseña.</p>
+          </ion-text>
+    
+          <ion-item class="input-container">
+            <ion-input type="email" class="registro-input" placeholder="Introduce tu usuario" [(ngModel)]="userEmail"></ion-input>
+          </ion-item>
+    
+          <ion-button class="registro-button" (click)="resetPassword()">RECUPERAR</ion-button>
+    
+          <ion-text class="registro-regresar" (click)="goToLogin()">
+            <p>Regresar</p>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </ion-content>
+  </ion-router-outlet>
+</ion-app>

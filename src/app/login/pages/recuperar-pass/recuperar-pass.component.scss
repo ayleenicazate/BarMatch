@@ -1,0 +1,89 @@
+ion-content {
+  --background: #C7C7C9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-card {
+  --background: #ffffff;
+  width: 90%;
+  max-width: 400px;
+  margin: 20px auto;
+  border-radius: 15px;
+}
+
+ion-card-content.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px;
+}
+
+ion-text.registro-titulo h1 {
+  font-size: 24px;
+  font-weight: bold; 
+  text-align: center; 
+  color: #000000; 
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+}
+
+ion-text.registro-texto p {
+  color: #000000;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+ion-item.input-container {
+  --background: #ffffff;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  margin-bottom: 20px;
+
+
+  ion-input.registro-input {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    color: #000000;
+    text-align: center;
+  }
+}
+
+ion-button.registro-button {
+  --background: #F28627;
+  --color: #000000;
+  --border-radius: 20px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+ion-text.registro-regresar p {
+  color: blue;
+  text-transform: capitalize;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+}
+
+.toolbar-custom {
+  --background: rgb(0, 0, 173);
+  --color: white;
+}
+
+ion-img.registro-logo {
+  display: block;
+  margin: 0 auto;
+  width: 65px;
+  height: 65px;
+}

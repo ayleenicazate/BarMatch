@@ -1,0 +1,102 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #C7C7C9; 
+    padding: 20px;
+  }
+  
+.login-logo {
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+    border-radius: 10%;
+  }
+  
+.login-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+  }
+  
+ion-header ion-title {
+    font-size: 24px;
+    background: #04D976;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+ion-button {
+    --background: #F28627;
+    --border-radius: 20px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    margin-top: 15px;
+  }
+  
+ 
+.forgot-password {
+    margin-top: 15px;
+    text-align: center;
+    color: blue;
+    cursor: pointer;
+  }
+  
+.forgot-password p {
+    font-size: 14px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+  }
+  
+.forgot-password p:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+  
+  
+ion-card {
+    width: 100%;
+    max-width: 400px;
+    --background: #ffffff; 
+    border-radius: 15px;
+  }
+  
+  
+ion-card-header img {
+    margin-bottom: 10px;
+  }
+  
+  
+ion-item {
+    --background: transparent; 
+    margin-bottom: 15px;}
+    
+    
+ion-label {
+      color: rgba(255, 255, 255, 0.7);
+      transition: color 0.3s ease;
+    }
+  
+ion-input {
+      color: black;
+      --placeholder-color:black;
+    }
+  
+
+  .registro-acceso {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #000000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  
+  

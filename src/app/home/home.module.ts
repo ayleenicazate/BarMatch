@@ -1,19 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { HomeRoutingModule } from './home-routing.module';
+import { PrincipalComponent } from './pages/principal/principal.component';
+import { IonicModule } from '@ionic/angular';
+import { CalendarComponent } from './pages/calendar/calendar.component';
+import { EncuentroComponent } from './pages/encuentro/encuentro.component';
+import { BarComponent } from './pages/bar/bar.component';
+import { CantpersComponent } from './pages/cantpers/cantpers.component';
+import { ConfirmacionComponent } from './pages/confirmacion/confirmacion.component';
 
 
 @NgModule({
+  declarations: [
+    
+  ],
   imports: [
     CommonModule,
-    FormsModule,
+    HomeRoutingModule,
     IonicModule,
-    HomePageRoutingModule
-  ],
-  declarations: [HomePage]
+    PrincipalComponent,
+    CalendarComponent,
+    EncuentroComponent,
+    BarComponent,
+    CantpersComponent,
+    ConfirmacionComponent
+  ]
 })
-export class HomePageModule {}
+export class HomeModule { }
