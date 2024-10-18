@@ -1,17 +1,58 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { LoginComponent } from 'src/app/login/pages/login/login.component';
+import { PrincipalComponent } from 'src/app/home/pages/principal/principal.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   standalone: true,
-  imports: [IonicModule]
+  imports: [IonicModule, CommonModule, LoginComponent, PrincipalComponent, FormsModule]
 })
 export class CalendarComponent  implements OnInit {
+  username: string='';
+  deporte: string='';
+  selectedDate: string = '';
+  minDate: string = new Date().toISOString();
+  maxDate: string = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString();
 
-  constructor() { }
+  constructor(private route:ActivatedRoute, private router:Router ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.username = this.route.snapshot.paramMap.get('username')||'';
+    this.deporte = this.route.snapshot.paramMap.get('deporte')||'';
+  }
 
+  onDateChange(event: any) {
+    const date = new Date(event.detail.value);
+    this.selectedDate = this.formatDate(date);
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  goToEncuentros() {
+    if (this.selectedDate) {
+      this.router.navigate(['home/encuentros', {
+        username: this.username,
+        deporte: this.deporte,
+        fecha: this.selectedDate
+      }]);
+    }
+  }
+
+  goToHome() {
+    this.router.navigate(['/loading']);
+    setTimeout(() => {
+      this.router.navigate(['/home',{username:this.username}]);
+    },1500);
+  }
 }

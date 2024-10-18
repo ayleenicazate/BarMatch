@@ -1,7 +1,58 @@
 <ion-app>
   <ion-router-outlet>
-    <p>
-      bar works!
-    </p>
+    <ion-content>
+      <ion-header [translucent]="true">
+        <ion-toolbar class="toolbar-custom">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title class="ion-text-center">
+            <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button style="visibility: hidden;">
+              <ion-menu-button></ion-menu-button>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-grid class="content-container">
+        <ion-row>
+          <ion-col>
+            <ion-text class="bar-bienvenida">
+              <h1 class="bar-titulo">¡Elige tu bar!</h1>
+              <p class="bar-subtitulo">Para ver {{encuentroNombre}} el día {{fecha}}</p>
+              <p class="bar-link">
+                <a (click)="goToEncuentros()">Elegir otro encuentro</a>
+              </p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-list class="cards-container">
+              <ion-card class="centered-card" *ngFor="let bar of bares" (click)="seleccionarBar(bar)">
+                <ion-card-header>
+                  <ion-card-title>{{bar.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>Dirección: {{bar.direccion}}</p>
+                </ion-card-content>
+              </ion-card>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="bares.length === 0">
+          <ion-col>
+            <ion-text class="no-bares">
+              <p>No hay bares disponibles para este encuentro.</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
   </ion-router-outlet>
 </ion-app>

@@ -18,7 +18,7 @@ const routes: Routes = [
   component: CalendarComponent
  },
  {
-  path:'encuentro',
+  path:'encuentros',
   component: EncuentroComponent
  },
  {

@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,11 @@ export class LoginComponent implements AfterViewInit {
   username: string = '';
   password: string = '';
 
-  constructor(private alertController: AlertController, private router: Router) {}
+  constructor(private alertController: AlertController, private router: Router, private appComponent: AppComponent) {}
 
   ngAfterViewInit() {}
+    
+    
     
     login() {
       const validUser = 'víctor';
@@ -31,6 +34,7 @@ export class LoginComponent implements AfterViewInit {
         this.router.navigate(['/loading']);
         setTimeout(() => {
           this.router.navigate(['/home',{ username: this.username }]);
+          this.appComponent.setUsername(this.username);
         },1500);
       } 
       else {

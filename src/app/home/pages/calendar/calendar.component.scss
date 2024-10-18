@@ -1,0 +1,173 @@
+ion-content {
+    --background: #C7C7C9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .toolbar-custom {
+    --background: rgb(0, 0, 173);
+    --color: white;
+    position: relative;
+    height: 65px;
+  }
+  
+  ion-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    pointer-events: none;
+  }
+  
+  ion-img.principal-logo {
+    display: block;
+    transform: translateX(0px); 
+    pointer-events: auto;
+    margin: auto;
+    width: 65px;
+    height: 65px;
+    cursor: pointer;
+    margin-top: -5px;
+  }
+  
+  ion-buttons {
+    z-index: 1;
+  }
+  
+  ion-menu-button {
+    width: 40px; 
+  }
+  
+  ion-text.principal-bienvenida {
+    text-align: center;
+    margin-bottom: 20px;
+  
+    .principal-titulo {
+      font-size: 35px;
+      font-weight: bold;
+      color: black;
+      margin-top: 10px;
+      margin-bottom: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+  
+    .principal-subtitulo {
+      font-size: 15px;
+      color: black;
+    }
+  }
+  
+  ion-list.cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+  }
+  
+
+  ion-card {
+    max-width: 500px;
+    width: 90%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 0 auto;
+
+  }
+  
+  ion-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: whitesmoke;
+    text-align: center;
+    margin-top: -15px;
+  }
+
+   
+  ion-img.img-deporte {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  
+  ion-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+  }
+  
+  ion-card-subtitle {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    padding: 0 10px;
+  }
+  
+  @media (max-width: 600px) {
+    ion-card.centered-card {
+      height: auto;
+    }
+  
+    ion-img.img-deporte {
+      width: 80px;
+      height: 80px;
+    }
+  
+    ion-card-title {
+      font-size: 16px;
+    }
+  
+    ion-card-subtitle {
+      font-size: 12px;
+    }
+  }
+
+  ion-datetime {
+    --background: transparent;
+    --calendar-background: ffffff;
+    --calendar-border-color: var(--ion-color-light);
+    --calendar-day-color: var(--ion-color-dark);
+    --calendar-today-color: var(--ion-color-primary);
+    --calendar-selected-color: var(--ion-color-primary);
+  }
+  
+  ion-button {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    margin-top: 20px;
+    color: #000000;
+    --background: #F28627;
+    --border-radius: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  ion-grid{
+    width: 100%;
+  }
+
+  ion-buttons {
+    z-index: 1;
+  }
+  
+  ion-menu-button {
+    width: 40px; 
+    margin-top: -5px;
+  }

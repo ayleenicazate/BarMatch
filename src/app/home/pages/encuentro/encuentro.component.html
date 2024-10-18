@@ -1,8 +1,58 @@
-
 <ion-app>
   <ion-router-outlet>
-    <p>
-      encuentro works!
-    </p>
+    <ion-content>
+      <ion-header [translucent]="true">
+        <ion-toolbar class="toolbar-custom">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title class="ion-text-center">
+            <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button style="visibility: hidden;">
+              <ion-menu-button></ion-menu-button>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-grid class="content-container">
+        <ion-row>
+          <ion-col>
+            <ion-text class="encuentro-bienvenida">
+              <h1 class="encuentro-titulo">¡Elige tu encuentro!</h1>
+              <p class="encuentro-subtitulo">Estás buscando encuentros para el día {{fechaSeleccionada}}</p>
+              <p class="encuentro-link">
+                <a (click)="goToCalendar()">Ver otra fecha</a>
+              </p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-list class="cards-container">
+              <ion-card class="centered-card" *ngFor="let encuentro of encuentros" (click)="seleccionarEncuentro(encuentro)">
+                <ion-card-header>
+                  <ion-card-title>{{encuentro.nombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>{{encuentro.deporte}}  {{encuentro.fecha}}</p>
+                </ion-card-content>
+              </ion-card>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="encuentros.length === 0">
+          <ion-col>
+            <ion-text class="no-encuentros">
+              <p>No hay encuentros disponibles para {{deporteSeleccionado}} el día {{fechaSeleccionada}}.</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
   </ion-router-outlet>
 </ion-app>

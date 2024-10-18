@@ -1,3 +1,132 @@
-p{
-    color:white;
-}
+ion-content {
+    --background: #C7C7C9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  .toolbar-custom {
+    --background: rgb(0, 0, 173);
+    --color: white;
+    position: relative;
+    height: 65px;
+  }
+  
+  ion-img.principal-logo {
+    display: block;
+    margin: auto;
+    transform: translateX(10px); 
+    pointer-events: auto;
+    width: 65px;
+    height: 65px;
+    cursor: pointer;
+
+  }
+
+  ion-buttons {
+    z-index: 1;
+  }
+  
+  ion-menu-button {
+    width: 40px; 
+  }
+  
+  ion-text.principal-bienvenida {
+    text-align: center;
+    margin-bottom: 20px;
+  
+    .principal-titulo {
+      font-size: 35px;
+      font-weight: bold;
+      color: black;
+      margin-top: 10px;
+      margin-bottom: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+  
+    .principal-subtitulo {
+      font-size: 15px;
+      color: black;
+    }
+  }
+  
+  ion-list.cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  ion-card.centered-card {
+    max-width: 800px;
+    width: 90%;
+    height: 200px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  ion-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    width: 100%;
+  }
+  
+  ion-img.img-deporte {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  
+  ion-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  ion-card-subtitle {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+    padding: 0 10px;
+  }
+  
+  @media (max-width: 600px) {
+    ion-card.centered-card {
+      height: auto;
+    }
+  
+    ion-img.img-deporte {
+      width: 80px;
+      height: 80px;
+    }
+  
+    ion-card-title {
+      font-size: 16px;
+    }
+  
+    ion-card-subtitle {
+      font-size: 12px;
+    }
+  }
