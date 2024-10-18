@@ -1,7 +1,53 @@
 <ion-app>
   <ion-router-outlet>
-    <p>
-      mireserva works!
-    </p>
+    <ion-content>
+      <ion-header [translucent]="true">
+        <ion-toolbar class="toolbar-custom">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title class="ion-text-center">
+            <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button style="visibility: hidden;">
+              <ion-menu-button></ion-menu-button>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-grid class="content-container">
+        <ion-row>
+          <ion-col>
+            <ion-text class="encuentro-bienvenida">
+              <h1 class="encuentro-titulo">RESERVA PARA</h1>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-list class="cards-container">
+              <ion-card class="centered-card" (click)="goToReserva()">
+                <ion-card-header>
+                  <ion-card-title>{{reserva.encuentroNombre}}</ion-card-title>
+                  <ion-card-subtitle>{{reserva.fecha}}</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-text>
+                    <p>Válida por {{reserva.cantidadPersonas}} personas en Bar {{reserva.barNombre}}, {{reserva.barDireccion}}.</p>
+                  </ion-text>
+
+                </ion-card-content>
+              </ion-card>
+            </ion-list>
+
+            <ion-button class ="principal" expand="block" (click)="goToMisReservas()"> Mis Reservas </ion-button>
+            <ion-button class ="secundario" expand="block" (click)="goToHome()"> Inicio </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
   </ion-router-outlet>
 </ion-app>

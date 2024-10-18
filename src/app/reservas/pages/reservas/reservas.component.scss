@@ -1,0 +1,152 @@
+ion-app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  ion-router-outlet {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  ion-content {
+    --background: white;
+  }
+  
+  .toolbar-custom {
+    --background: rgb(0, 0, 173);
+    --color: white;
+    position: relative;
+    height: 65px; // Aumenta la altura del toolbar
+  }
+  
+  ion-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  ion-img.principal-logo {
+    display: inline-block;
+    height: 65px;
+    cursor: pointer;
+    transform: translateX(-7.7px);
+    pointer-events: auto; 
+    margin-top: 8px;
+  }
+  
+  .content-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .encuentro-bienvenida {
+    text-align: center;
+    width: 100%;
+    margin: 20px 0;
+  
+    .encuentro-titulo {
+      font-size: 30px;
+      font-weight: bold;
+      color: #000000;
+      --ion-color-dark: #000000;
+    }
+  
+    .encuentro-subtitulo {
+      font-size: 16px;
+      color: var(--ion-color-medium);
+    }
+  }
+  
+  .encuentro-link {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+  
+    a {
+      color: var(--ion-color-primary);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+  
+  .cards-container {
+    width: 100%;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .centered-card {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --background: #f4f5f8;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .no-encuentros {
+    text-align: center;
+    color: var(--ion-color-medium);
+    margin-top: 20px;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  ion-card-header {
+    --background: #f4f5f8;
+    align-items: left;
+  }
+  ion-card-content {
+    --background: #f4f5f8;
+    align-items: left;
+
+  }
+  ion-card-content p {
+    --background: #f4f5f8;
+    margin-left: 209px;
+  }
+  
+  ion-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  ion-buttons {
+    z-index: 1;
+  }
+  
+  ion-menu-button {
+    width: 40px;
+    height: 40px;
+    font-size: 24px; 
+    margin-top: 10px;
+  }
+  
+  ion-button.secundario {
+    --padding-start: 20px;
+    --padding-end: 20px;
+    color: #000000;
+    --background: #C7C7C9;
+    --border-radius: 2px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 8px;
+    font-weight: bold;
+    margin-top: 5px;
+    width: 100px;
+    height: 10px;
+  }

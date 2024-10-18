@@ -1,7 +1,58 @@
 <ion-app>
   <ion-router-outlet>
-    <p>
-      reservas works!
-    </p>
+      <ion-content>
+        <ion-header [translucent]="true">
+          <ion-toolbar class="toolbar-custom">
+            <ion-buttons slot="start">
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title class="ion-text-center">
+              <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+            </ion-title>
+            <ion-buttons slot="end">
+              <ion-button style="visibility: hidden;">
+                <ion-menu-button></ion-menu-button>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+
+      <ion-grid class="content-container">
+        <ion-row>
+          <ion-col>
+            <ion-text class="encuentro-bienvenida">
+              <h1 class="encuentro-titulo">MIS RESERVAS</h1>
+              <p class="encuentro-subtitulo">A continuación podrás encontrar tus reservas. ¡No olvides
+                presentarla al llegar al bar!</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-list class="cards-container" *ngIf="reservas.length > 0; else noReservas">
+              <ion-card class="centered-card" *ngFor="let reserva of reservas" (click)="goToReserva(reserva)">
+                <ion-card-header>
+                  <ion-card-title>{{reserva.deporte}}. {{reserva.encuentroNombre}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>Fecha: {{reserva.fecha}}</p>
+                  <p>Bar: {{reserva.barNombre}}</p>
+                  <p>Dirección: {{reserva.barDireccion}}</p>
+                  <p>Válida por {{reserva.cantidadPersonas}} personas</p>
+                </ion-card-content>
+              </ion-card>
+            </ion-list>
+            
+            <ng-template #noReservas>
+              <ion-text class="no-reservas-mensaje">
+                <p>Aún no tienes reservas para mostrar.</p>
+                <p>¡Haz tu primera reserva ahora!</p>
+              </ion-text>
+            </ng-template>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
   </ion-router-outlet>
 </ion-app>

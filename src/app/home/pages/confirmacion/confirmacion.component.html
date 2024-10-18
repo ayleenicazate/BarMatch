@@ -1,7 +1,40 @@
 <ion-app>
   <ion-router-outlet>
-    <p>
-      confirmacion works!
-    </p>
+
+    <ion-content>
+      <ion-header [translucent]="true">
+        <ion-toolbar class="toolbar-custom">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title class="ion-text-center">
+            <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button style="visibility: hidden;">
+              <ion-menu-button></ion-menu-button>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+    
+      <ion-content class="ion-padding">
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col>   
+              <ion-text class="titulo">¡RESERVA CONFIRMADA!</ion-text>
+              <ion-text class="texto1">Haz realizado una reserva para el día {{fecha}} en el bar {{barNombre}} ubicado en {{barDireccion}}. Para el encuentro {{encuentroNombre}}.</ion-text>        
+              <ion-text class="texto2">Válida para {{cantidadPersonas}} asistentes</ion-text>
+
+              <ion-button class ="principal" expand="block" (click)="goToMisReservas()"> Mis Reservas </ion-button>
+              <ion-button class ="secundario" expand="block" (click)="goToHome()"> Inicio </ion-button>
+            
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ion-content>
+    
   </ion-router-outlet>
 </ion-app>
+

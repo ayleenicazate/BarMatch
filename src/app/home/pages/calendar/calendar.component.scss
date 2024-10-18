@@ -1,5 +1,5 @@
 ion-content {
-    --background: #C7C7C9;
+    --background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -145,9 +145,10 @@ ion-content {
     --calendar-day-color: var(--ion-color-dark);
     --calendar-today-color: var(--ion-color-primary);
     --calendar-selected-color: var(--ion-color-primary);
+    color: black;
   }
   
-  ion-button {
+  ion-button.principal {
     --padding-start: 30px;
     --padding-end: 30px;
     margin-top: 20px;
@@ -157,17 +158,48 @@ ion-content {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    height: 45px;
+    width: 200px;
+  }
+
+  ion-button.secundario {
+    --padding-start: 20px;
+    --padding-end: 20px;
+    color: #000000;
+    --background: #C7C7C9;
+    --border-radius: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 10px;
+    margin-top: -10px;
+    width: 100px;
   }
 
   ion-grid{
     width: 100%;
   }
 
-  ion-buttons {
-    z-index: 1;
-  }
-  
   ion-menu-button {
     width: 40px; 
     margin-top: -5px;
+  }
+
+  .volver-link {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: -5px;
+  }
+
+  .volver-link:hover {
+    color: var(--ion-color-medium-shade);
+  }
+  a {
+    color: var(--ion-color-primary);
+    text-decoration: underline;
+    cursor: pointer;
   }

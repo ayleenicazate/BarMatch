@@ -31,16 +31,16 @@ export class BarComponent implements OnInit {
   bares: Bar[] = [];
 
   todosBares: Bar[] = [
-    { id: 1, nombre: "El Rincón Futbolero", direccion: "Las Condes 1020" },
-    { id: 2, nombre: "Sports Bar", direccion: "Calle Principal 123" },
-    { id: 3, nombre: "Golazo Bar", direccion: "Vitacura 777" },
-    { id: 4, nombre: "Champions", direccion: "Paseo de la Victoria 654" },
-    { id: 5, nombre: "The Dugout", direccion: "Avenida Central 456" },
-    { id: 6, nombre: "Básquet Lounge", direccion: "Providencia 333" },
-    { id: 7, nombre: "La Pelota Loca", direccion: "La Florida 902" },
-    { id: 8, nombre: "MatchPoint", direccion: "Ñuñoa 451" },
-    { id: 9, nombre: "The Sideline", direccion: "Calle del Estadio 321" },
-    { id: 10, nombre: "Overtime", direccion: "Plaza Mayor 789" },
+    { id: 1, nombre: "El Rincón Futbolero", direccion: "Av. Las Condes 1020, Las Condes" },
+    { id: 2, nombre: "Sports Bar", direccion: "Calle Principal 123, Ñuñoa" },
+    { id: 3, nombre: "Golazo Bar", direccion: "Av. Vitacura 777, Vitacura"},
+    { id: 4, nombre: "Champions", direccion: "Paseo de la Victoria 654, Santiago" },
+    { id: 5, nombre: "The Dugout", direccion: "Avenida Central 456, Santiago" },
+    { id: 6, nombre: "Básquet Lounge", direccion: "Av. Providencia 333, Providencia" },
+    { id: 7, nombre: "La Pelota Loca", direccion: "Av. La Florida 902, La Florida" },
+    { id: 8, nombre: "MatchPoint", direccion: "La Concepción 451, Providencia" },
+    { id: 9, nombre: "The Sideline", direccion: "Calle del Estadio 321, Santiago" },
+    { id: 10, nombre: "Overtime", direccion: "Plaza Mayor 789, Santiago" },
   ];
   
 
@@ -108,8 +108,9 @@ encuentroBares: EncuentroBar[] = [
     console.log('Bar seleccionado:', bar);
     this.router.navigate(['/home/cantpers', {
       username: this.username,
-      barId: bar.id,
-      barNombre: bar.nombre,
+      deporte: this.deporte,
+      barNombre: this.todosBares.find(b => b.id === bar.id)?.nombre || '',
+      barDireccion:this.todosBares.find(b => b.id === bar.id)?.direccion || '',
       encuentroNombre: this.encuentroNombre,
       fecha: this.fecha
     }]);

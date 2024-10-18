@@ -1,7 +1,50 @@
 <ion-app>
   <ion-router-outlet>
-    <p>
-      cantpers works!
-    </p>
+
+    <ion-content>
+      <ion-header [translucent]="true">
+        <ion-toolbar class="toolbar-custom">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title class="ion-text-center">
+            <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button style="visibility: hidden;">
+              <ion-menu-button></ion-menu-button>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+    
+      <ion-content class="ion-padding">
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col>
+              <p class="titulo">Estás reservando para el día {{fecha}} en {{barNombre}} para el encuentro {{encuentroNombre}}</p>
+              <p class="subtitulo">¿Para cuántas personas quieres reservar?</p>
+              
+              <ion-item>
+                <ion-label class="label-custom">Reservar para</ion-label>
+                <ion-select [(ngModel)]="cantidadPersonas" interface="popover">
+                  <ion-select-option [value]="1">1</ion-select-option>
+                  <ion-select-option [value]="2">2</ion-select-option>
+                  <ion-select-option [value]="3">3</ion-select-option>
+                  <ion-select-option [value]="4">4</ion-select-option>
+                  <ion-select-option [value]="5">5</ion-select-option>
+                  <ion-select-option [value]="6">6</ion-select-option>
+                  <ion-select-option [value]="7">7</ion-select-option>
+                </ion-select>               
+              </ion-item>
+              
+              <ion-button class="principal" expand="block" (click)="goToConfirmacion()"> Confirmar </ion-button>
+              <ion-button class="secundario" (click)="goToHome()"> Cancelar </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ion-content>
+    
   </ion-router-outlet>
 </ion-app>

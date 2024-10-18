@@ -125,3 +125,18 @@ ion-menu-button {
   margin-top: 10px;
 }
 
+ion-button.secundario {
+  --padding-start: 20px;
+  --padding-end: 20px;
+  color: #000000;
+  --background: #C7C7C9;
+  --border-radius: 2px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 8px;
+  font-weight: bold;
+  margin-top: 5px;
+  width: 100px;
+  height: 10px;
+}

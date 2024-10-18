@@ -39,9 +39,14 @@
         <ion-grid>
           <ion-row class="ion-justify-content-center">
             <ion-col size="auto">
-              <ion-button (click)="goToEncuentros()" [disabled]="!selectedDate">
+              <ion-button class="principal" (click)="goToEncuentros()" [disabled]="!selectedDate">
                 Siguiente
               </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="auto">
+              <ion-button class="secundario" (click)="goToHome()"> Inicio </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

@@ -17,8 +17,8 @@ export class CalendarComponent  implements OnInit {
   username: string='';
   deporte: string='';
   selectedDate: string = '';
-  minDate: string = new Date().toISOString();
-  maxDate: string = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString();
+  minDate: string = new Date('2024-11-15').toISOString();
+  maxDate: string = new Date('2024-11-20').toISOString();
 
   constructor(private route:ActivatedRoute, private router:Router ) { }
 
@@ -50,9 +50,6 @@ export class CalendarComponent  implements OnInit {
   }
 
   goToHome() {
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
       this.router.navigate(['/home',{username:this.username}]);
-    },1500);
   }
 }
