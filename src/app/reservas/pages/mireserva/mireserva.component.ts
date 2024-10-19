@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReservaService } from '../../../services/reserva.service';
+import { ReservaService } from '../../../services/reservaService/reserva.service';
 
 @Component({
   selector: 'app-mireserva',
@@ -42,7 +42,11 @@ export class MireservaComponent implements OnInit {
   }
 
   goToHome() {
-    this.router.navigate(['/home', { username: this.username }]);
+    this.router.navigate(['/loading']);
+    setTimeout(() => {
+      this.router.navigate(['/home'],);
+    }, 1500);
+
   }
 
   goToReserva() {

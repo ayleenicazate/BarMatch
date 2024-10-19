@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { ReservaService } from '../../../services/reserva.service';
+import { ReservaService } from '../../../services/reservaService/reserva.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -39,7 +39,10 @@ export class ConfirmacionComponent implements OnInit {
   }
   
   goToMisReservas() {
-    this.router.navigate(['/reservas', { username: this.username }]);
+    this.router.navigate(['/loading']);
+    setTimeout(() => {
+      this.router.navigate(['/reservas', { username: this.username }]);
+    }, 1500);
   }
 
   confirmarReserva() {

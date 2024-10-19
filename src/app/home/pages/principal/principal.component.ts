@@ -3,7 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from 'src/app/login/pages/login/login.component';
-import { ReservaService } from '../../../services/reserva.service';
+import { ReservaService } from '../../../services/reservaService/reserva.service';
+import { AuthService } from '../../../services/authService/auth.service';
 
 interface Deporte {
   nombre: string;
@@ -29,11 +30,15 @@ export class PrincipalComponent implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private reservaService: ReservaService
+    private reservaService: ReservaService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username') || '';
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.username = currentUser.username; // Asumiendo que el nombre del usuario está en la propiedad 'nombre'
+    }
     if (this.username) {
       this.reservaService.setUserData({ username: this.username });
     } else {

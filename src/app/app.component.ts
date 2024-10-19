@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { ReservaService } from './services/reserva.service';
+import { ReservaService } from './services/reservaService/reserva.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
