@@ -14,11 +14,14 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
+    console.log('AuthGuard: Verificando autenticación');
+    
     if (this.authService.isAuthenticated()) {
+      console.log('AuthGuard: Usuario autenticado');
       return true;
     } else {
-      // Redirigir al usuario a la página de inicio de sesión si no está autenticado
-      return this.router.parseUrl('/login');
+      console.log('AuthGuard: Usuario no autenticado, redirigiendo a login');
+      return this.router.createUrlTree(['/login']);
     }
   }
 }

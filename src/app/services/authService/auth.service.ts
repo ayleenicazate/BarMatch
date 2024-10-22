@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 interface User {
   username: string;
-  password: string;
+  password?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  public isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
+  public currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
-  // Usuarios en duro para simular la autenticación
-  private users = [
+  private users: User[] = [
     { username: 'usuario1', password: 'contraseña1' },
-    { username: 'víctor', password: '1234' }
+    { username: 'Raúl', password: '1234' }
   ];
 
   constructor() {
@@ -31,19 +30,32 @@ export class AuthService {
     const token = localStorage.getItem('authToken');
     const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
     if (token && user) {
-      this.isLoggedInSubject.next(true);
-      this.currentUserSubject.next(user);
+      if (this.validateStoredUser(user)) {
+        this.isLoggedInSubject.next(true);
+        this.currentUserSubject.next(user);
+      } else {
+        this.logout();
+      }
+    } else {
+      this.logout();
     }
   }
 
+  private validateStoredUser(user: User): boolean {
+    return this.users.some(u => u.username === user.username && u.password === user.password);
+  }
+
   login(credentials: { username: string, password: string }): Observable<any> {
-    return of(this.checkCredentials(credentials)).pipe(
+    const result = this.checkCredentials(credentials);
+    return of(result).pipe(
       tap(response => {
         if (response.success) {
           localStorage.setItem('authToken', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
           this.isLoggedInSubject.next(true);
           this.currentUserSubject.next(response.user);
+        } else {
+          this.logout();
         }
       })
     );
@@ -65,9 +77,15 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUserSubject');
     this.isLoggedInSubject.next(false);
     this.currentUserSubject.next(null);
+  }
+
+  logoutmenu() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('currentUserSubject');
+    this.isLoggedInSubject.next(false);
   }
 
   isAuthenticated(): boolean {
@@ -77,4 +95,5 @@ export class AuthService {
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
   }
+
 }

@@ -33,28 +33,41 @@ export class LoginComponent implements OnInit {
   clearFields() {
     this.username = '';
     this.password = '';
-    this.reservaService.clearUserData();
+    
   }
 
   login() {
     this.authService.login({ username: this.username, password: this.password }).subscribe(
-      (response) => {
+      async (response) => {
         if (response.success) {
           console.log('Login exitoso');
+          localStorage.setItem('authToken', response.token);
           const currentUser = this.authService.getCurrentUser();
           console.log('Usuario actual:', currentUser);
           this.router.navigate(['/loading']);
           setTimeout(() => {
-            this.router.navigate(['/home'],);
+            this.router.navigate(['/home']);
           }, 1500);  
         } else {
           console.error('Error en el login:', response.message);
+          await this.mostrarAlertaCredencialesIncorrectas();
         }
       },
-      (error) => {
+      async (error) => {
         console.error('Error en el login', error);
+        await this.mostrarAlertaCredencialesIncorrectas();
       }
     );
+  }
+
+  async mostrarAlertaCredencialesIncorrectas() {
+    const alert = await this.alertController.create({
+      header: 'Error de inicio de sesión',
+      message: 'Credenciales incorrectas. Por favor, inténtelo de nuevo.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
   goToRecuperarPass() {

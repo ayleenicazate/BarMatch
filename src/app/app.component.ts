@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { ReservaService } from './services/reservaService/reserva.service';
 import { filter } from 'rxjs/operators';
+import { AuthService } from './services/authService/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
-    private reservaService: ReservaService
+    private reservaService: ReservaService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -73,8 +75,13 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
+    this.authService.logoutmenu();
+    localStorage.clear();
+    this.authService.logoutmenu();
+    this.authService.currentUserSubject.next(null);
+    this.authService.isLoggedInSubject.next(false);
     this.username = '';
-    this.reservaService.clearAllData(); // Asegúrate de que este método exista en ReservaService
+    this.password = '';
     this.router.navigate(['/login']);
     this.menuCtrl.close();
   }
