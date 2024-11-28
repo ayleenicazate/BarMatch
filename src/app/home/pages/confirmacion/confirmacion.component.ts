@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { ReservaService } from '../../../services/reservaService/reserva.service';
+import { SqliteService } from '../../../services/sqliteService/sqlite.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -16,24 +16,54 @@ export class ConfirmacionComponent implements OnInit {
   fecha: string = '';
   barNombre: string = '';
   encuentroNombre: string = '';
-  cantidadPersonas: number = 0;
+  cantidad_personas: number = 0;
   barDireccion: string = '';
+  encuentro_id: number = 0;
+  bar_id: number = 0;
 
-  constructor(private route: ActivatedRoute, private router: Router, private reservaService: ReservaService) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private sqlite: SqliteService
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    // Obtener parámetros de la ruta
     this.username = this.route.snapshot.paramMap.get('username') || '';
     this.deporte = this.route.snapshot.paramMap.get('deporte') || '';
     this.fecha = this.route.snapshot.paramMap.get('fecha') || '';
     this.barNombre = this.route.snapshot.paramMap.get('barNombre') || '';
     this.encuentroNombre = this.route.snapshot.paramMap.get('encuentroNombre') || '';
-    this.cantidadPersonas = Number(this.route.snapshot.paramMap.get('cantidadPersonas')) || 0;
+    this.cantidad_personas = Number(this.route.snapshot.paramMap.get('cantidad_personas'));
     this.barDireccion = this.route.snapshot.paramMap.get('barDireccion') || '';
+    this.encuentro_id = Number(this.route.snapshot.paramMap.get('encuentro_id'));
+    this.bar_id = Number(this.route.snapshot.paramMap.get('bar_id'));
 
-    // Guardar los datos de la reserva en el servicio
-    this.confirmarReserva();
+    await this.confirmarReserva();
   }
   
+  async confirmarReserva() {
+    try {
+      const reservaData = {
+        username: this.username,
+        encuentro_id: this.encuentro_id,
+        bar_id: this.bar_id,
+        cantidad_personas: this.cantidad_personas,
+        fecha_reserva: new Date().toISOString(),
+        deporte: this.deporte,
+        fecha: this.fecha,
+        encuentroNombre: this.encuentroNombre,
+        barNombre: this.barNombre,
+        barDireccion: this.barDireccion
+      };
+      const result = await this.sqlite.createReserva(reservaData);
+      console.log('Reserva guardada exitosamente', result);
+
+    } catch (error) {
+      console.error('Error al guardar la reserva:', error);
+    }
+  }
+
   goToHome() {
     this.router.navigate(['/home', { username: this.username }]);
   }
@@ -43,17 +73,5 @@ export class ConfirmacionComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/reservas', { username: this.username }]);
     }, 1500);
-  }
-
-  confirmarReserva() {
-    const nuevaReserva = {
-      deporte: this.deporte,
-      fecha: this.fecha,
-      barNombre: this.barNombre,
-      encuentroNombre: this.encuentroNombre,
-      cantidadPersonas: this.cantidadPersonas,
-      barDireccion: this.barDireccion
-    };
-    this.reservaService.setReservaData(nuevaReserva);
   }
 }

@@ -24,7 +24,7 @@
       </ion-text>
     
       <ion-list class="cards-container">
-        <ion-card class="centered-card elevated-card" *ngFor="let deporte of deportes" (click)="goToCalendar(deporte.nombre)">
+        <ion-card class="centered-card elevated-card" *ngFor="let deporte of deportes" (click)="goToCalendar(deporte)">
           <ion-card-header>
             <ion-img [src]="deporte.imagen" [alt]="deporte.nombre" class="img-deporte"></ion-img>
             <ion-card-title>{{deporte.nombre}}</ion-card-title>

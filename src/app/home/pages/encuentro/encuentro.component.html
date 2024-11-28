@@ -32,26 +32,26 @@
 
         <ion-row>
           <ion-col>
-            <ion-list class="cards-container">
+            <ion-list class="cards-container" *ngIf="encuentros.length > 0; else noEncuentros">
               <ion-card class="centered-card" *ngFor="let encuentro of encuentros" (click)="seleccionarEncuentro(encuentro)">
                 <ion-card-header>
                   <ion-card-title>{{encuentro.nombre}}</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                  <p>{{encuentro.deporte}}  {{encuentro.fecha}}</p>
+                  <p>{{deporte}}  {{encuentro.fecha}}</p>
                 </ion-card-content>
               </ion-card>
             </ion-list>
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="encuentros.length === 0">
+        <ng-template #noEncuentros>
           <ion-col>
             <ion-text class="no-encuentros">
-              <p>No hay encuentros disponibles para {{deporteSeleccionado}} el día {{fechaSeleccionada}}.</p>
+              <p>No hay encuentros disponibles para {{deporte}} el día {{fechaSeleccionada}}.</p>
             </ion-text>
           </ion-col>
-        </ion-row>
+        </ng-template>
       </ion-grid>
     </ion-content>
   </ion-router-outlet>
