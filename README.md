@@ -1,4 +1,4 @@
-Para ingresar al proyecto utilizar el user
+Para ingresar al proyecto utilizar las credenciales
 <br>
 user: Raúl
 pass: 1234
