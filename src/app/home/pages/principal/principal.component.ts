@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from 'src/app/login/pages/login/login.component';
-import { ReservaService } from '../../../services/reservaService/reserva.service';
 import { AuthService } from '../../../services/authService/auth.service';
+import { SqliteService } from '../../../services/sqliteService/sqlite.service';
+import { Subscription } from 'rxjs';
 
 interface Deporte {
+  deporte_id: number;
   nombre: string;
   descripcion: string;
   imagen: string;
@@ -19,36 +21,63 @@ interface Deporte {
   standalone: true,
   imports: [IonicModule, CommonModule, LoginComponent]
 })
-export class PrincipalComponent implements OnInit {
-  username: string = '';
-  deportes: Deporte[] = [
-    {nombre:'Futbol', descripcion:'Champions League, Libertadores, Campeonato nacional y todo el fútbol que buscas en compañía de nuevos amigos.', imagen:'assets/login1.png'},
-    {nombre:'Baloncesto', descripcion:'   NBA, Euroliga, LBN Chile y toda la emoción del baloncesto que buscas en compañía de nuevos nuevos amigos.', imagen:'assets/login1.png'},
-    {nombre:'Tenis', descripcion:'Wimbledon, Roland Garros, US Open, Australian Open y todos los torneos de tenis que te apasionan en compañía de nuevos amigos.', imagen:'assets/login1.png'},
-  ];
+export class PrincipalComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private reservaService: ReservaService,
-    private authService: AuthService
+    private authService: AuthService,
+    private sqlite: SqliteService
   ) {}
 
-  ngOnInit() {
-    const currentUser = this.authService.getCurrentUser();
-    if (currentUser) {
-      this.username = currentUser.username; // Asumiendo que el nombre del usuario está en la propiedad 'nombre'
-    }
-    if (this.username) {
-      this.reservaService.setUserData({ username: this.username });
-    } else {
-      const userData = this.reservaService.getUserData();
-      this.username = userData?.username || '';
+  username: string = '';
+  deportes: Deporte[] = [];
+  private dbSubscription?: Subscription;
+
+  async ngOnInit() {
+    try {
+      this.deportes = [];
+      
+      await this.sqlite.init();
+      
+      this.dbSubscription = this.sqlite.dbReady.subscribe(async (isReady) => {
+        if (isReady) {
+          this.deportes = [];
+          
+          const deportesNombres = ['1', '2', '3'];
+          
+          for (const idDeporte of deportesNombres) {
+            const deporteInfo = await this.sqlite.readDeporte(parseInt(idDeporte));
+            if (deporteInfo) {
+              this.deportes.push({
+                deporte_id: deporteInfo.deporte_id,
+                nombre: deporteInfo.nombre,
+                descripcion: deporteInfo.descripcion,
+                imagen: 'assets/login1.png'
+              });
+            }
+          }
+          console.log('Deportes cargados:', this.deportes);
+        }
+      });
+
+      const currentUser = this.authService.getCurrentUser();
+      if (currentUser) {
+        this.username = currentUser.username;
+      }
+    } catch (error) {
+      console.error('Error en ngOnInit:', error);
     }
   }
 
-  goToCalendar(deporte: string) {
-    this.router.navigate(['home/calendar', { deporte: deporte, username: this.username }]);
+  ngOnDestroy() {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
+  }
+
+  goToCalendar(deporte: Deporte) {
+    this.router.navigate(['home/calendar', { username: this.username, deporte: deporte.nombre, deporte_id: deporte.deporte_id }]);
   }
 
   goToLogin() {

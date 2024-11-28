@@ -1,18 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SqliteService } from '../../../services/sqliteService/sqlite.service';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 interface Bar {
-  id: number;
+  bar_id: number;
   nombre: string;
   direccion: string;
-}
-
-interface EncuentroBar {
-  id: number;
-  encuentroId: number;
-  barId: number;
 }
 
 @Component({
@@ -22,86 +19,79 @@ interface EncuentroBar {
   standalone: true,
   imports: [IonicModule, CommonModule]
 })
-export class BarComponent implements OnInit {
+export class BarComponent implements OnInit, OnDestroy {
   username: string = '';
-  encuentroId: number = 0;
+  encuentro_id: number = 0;
   encuentroNombre: string = '';
+  deporte_id: number = 0;
   deporte: string = '';
   fecha: string = '';
   bares: Bar[] = [];
+  dbError: boolean = false;
+  private dbSubscription?: Subscription;
 
-  todosBares: Bar[] = [
-    { id: 1, nombre: "El Rincón Futbolero", direccion: "Av. Las Condes 1020, Las Condes" },
-    { id: 2, nombre: "Sports Bar", direccion: "Calle Principal 123, Ñuñoa" },
-    { id: 3, nombre: "Golazo Bar", direccion: "Av. Vitacura 777, Vitacura"},
-    { id: 4, nombre: "Champions", direccion: "Paseo de la Victoria 654, Santiago" },
-    { id: 5, nombre: "The Dugout", direccion: "Avenida Central 456, Santiago" },
-    { id: 6, nombre: "Básquet Lounge", direccion: "Av. Providencia 333, Providencia" },
-    { id: 7, nombre: "La Pelota Loca", direccion: "Av. La Florida 902, La Florida" },
-    { id: 8, nombre: "MatchPoint", direccion: "La Concepción 451, Providencia" },
-    { id: 9, nombre: "The Sideline", direccion: "Calle del Estadio 321, Santiago" },
-    { id: 10, nombre: "Overtime", direccion: "Plaza Mayor 789, Santiago" },
-  ];
-  
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private sqlite: SqliteService
+  ) {}
 
-encuentroBares: EncuentroBar[] = [
-  { id: 1, encuentroId: 1, barId: 1 },
-  { id: 2, encuentroId: 1, barId: 2 },
-  { id: 3, encuentroId: 1, barId: 3 },
-  { id: 4, encuentroId: 2, barId: 2 },
-  { id: 5, encuentroId: 2, barId: 4 },
-  { id: 6, encuentroId: 3, barId: 1 },
-  { id: 7, encuentroId: 3, barId: 3 },
-  { id: 8, encuentroId: 3, barId: 5 },
-  { id: 9, encuentroId: 4, barId: 6 },
-  { id: 10, encuentroId: 4, barId: 1 },
-  { id: 11, encuentroId: 5, barId: 8 },
-  { id: 12, encuentroId: 6, barId: 9 },
-  { id: 13, encuentroId: 7, barId: 7 },
-  { id: 14, encuentroId: 8, barId: 8 },
-  { id: 15, encuentroId: 9, barId: 5 },
-  { id: 16, encuentroId: 10, barId: 7 },
-  { id: 17, encuentroId: 11, barId: 9 },
-  { id: 18, encuentroId: 12, barId: 6 },
-  { id: 19, encuentroId: 13, barId: 3 },
-  { id: 20, encuentroId: 14, barId: 10 },
-  { id: 21, encuentroId: 15, barId: 8 },
-  { id: 22, encuentroId: 16, barId: 10 },
-  { id: 23, encuentroId: 17, barId: 9 },
-  { id: 24, encuentroId: 18, barId: 6 },
-  { id: 25, encuentroId: 19, barId: 5 },
-  { id: 26, encuentroId: 20, barId: 8 },
-  { id: 27, encuentroId: 21, barId: 10 },
-  { id: 28, encuentroId: 22, barId: 7 },
-  { id: 29, encuentroId: 23, barId: 6 },
-  { id: 30, encuentroId: 24, barId: 9 },
-  { id: 31, encuentroId: 25, barId: 4 },
-  { id: 32, encuentroId: 26, barId: 8 },
-  { id: 33, encuentroId: 27, barId: 6 },
-  { id: 34, encuentroId: 28, barId: 7 },
-  { id: 35, encuentroId: 29, barId: 9 },
-  { id: 36, encuentroId: 30, barId: 10 },
-];
+  async ngOnInit() {
+    try {
+      this.username = this.route.snapshot.paramMap.get('username') || '';
+      this.encuentro_id = Number(this.route.snapshot.paramMap.get('encuentro_id'));
+      this.encuentroNombre = this.route.snapshot.paramMap.get('encuentro_nombre') || '';
+      this.deporte = this.route.snapshot.paramMap.get('deporte') || '';
+      this.deporte_id = Number(this.route.snapshot.paramMap.get('deporte_id'));
+      this.fecha = this.route.snapshot.paramMap.get('fecha') || '';
 
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
-
-  ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username') || '';
-    this.encuentroId = Number(this.route.snapshot.paramMap.get('encuentroId')) || 0;
-    this.encuentroNombre = this.route.snapshot.paramMap.get('encuentroNombre') || '';
-    this.deporte = this.route.snapshot.paramMap.get('deporte') || '';
-    this.fecha = this.route.snapshot.paramMap.get('fecha') || '';
-
-    this.cargarBares();
+      await this.sqlite.init();
+      
+      this.dbSubscription = this.sqlite.dbReady
+        .pipe(take(1))
+        .subscribe(async (isReady) => {
+          if (isReady) {
+            await this.cargarBares();
+          }
+        });
+    } catch (error) {
+      console.error('Error en ngOnInit:', error);
+      this.dbError = true;
+    }
   }
 
-  cargarBares() {
-    const baresDelEncuentro = this.encuentroBares
-      .filter(eb => eb.encuentroId === this.encuentroId)
-      .map(eb => eb.barId);
+  async cargarBares() {
+    try {
+      const encuentroBares = await this.sqlite.readEncuentroBar(this.encuentro_id);
+      console.log('EncuentroBares encontrados:', encuentroBares);
 
-    this.bares = this.todosBares.filter(bar => baresDelEncuentro.includes(bar.id));
+      this.bares = [];
+
+      for (const encuentroBar of encuentroBares) {
+        if (encuentroBar && encuentroBar.bar_id) {
+          const baresEncontrados = await this.sqlite.readBares(encuentroBar.bar_id);
+          console.log('Bares encontrados para ID', encuentroBar.bar_id, ':', baresEncontrados);
+          
+          if (Array.isArray(baresEncontrados) && baresEncontrados.length > 0) {
+            baresEncontrados.forEach(bar => {
+              if (bar) {
+                this.bares.push({
+                  bar_id: bar.bar_id,
+                  nombre: bar.nombre,
+                  direccion: bar.direccion
+                });
+              }
+            });
+          }
+        }
+      }
+
+      console.log('Total de bares cargados:', this.bares.length);
+      console.log('Bares cargados:', this.bares);
+    } catch (error) {
+      console.error('Error al cargar bares:', error);
+      this.dbError = true;
+    }
   }
 
   seleccionarBar(bar: Bar) {
@@ -109,11 +99,19 @@ encuentroBares: EncuentroBar[] = [
     this.router.navigate(['/home/cantpers', {
       username: this.username,
       deporte: this.deporte,
-      barNombre: this.todosBares.find(b => b.id === bar.id)?.nombre || '',
-      barDireccion:this.todosBares.find(b => b.id === bar.id)?.direccion || '',
+      bar_id: bar.bar_id,
+      barNombre: bar.nombre,
+      barDireccion: bar.direccion,
+      encuentro_id: this.encuentro_id,
       encuentroNombre: this.encuentroNombre,
       fecha: this.fecha
     }]);
+  }
+
+  ngOnDestroy() {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
   }
 
   goToHome() {
@@ -127,6 +125,7 @@ encuentroBares: EncuentroBar[] = [
       this.router.navigate(['/home/encuentros', {
         username: this.username,
         fecha: this.fecha,
+        deporte_id: this.deporte_id,
         deporte: this.deporte
       }]);
   }

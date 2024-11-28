@@ -1,9 +1,9 @@
-import { AfterViewInit, Component,  } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular'; 
 import { FormsModule } from '@angular/forms';
-
+import { SqliteService } from '../../../services/sqliteService/sqlite.service';
 
 @Component({
   selector: 'app-recuperar-pass',
@@ -12,18 +12,17 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [IonicModule, FormsModule]
 })
-
-
-export class RecuperarPassComponent  implements AfterViewInit {
-  userEmail: string = ''; // dejar predefinido usuario
-
-  // Usuario registrado en duro
-  registeredUser: string = 'víctor'; // restriccion para confirmacion de usuario
+export class RecuperarPassComponent implements AfterViewInit {
+  userEmail: string = '';
   
-  constructor(private router: Router, private alertController: AlertController) {}
+  constructor(
+    private router: Router, 
+    private alertController: AlertController,
+    private sqliteService: SqliteService
+  ) {}
+
   ngAfterViewInit() {}
 
-  
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
@@ -34,37 +33,44 @@ export class RecuperarPassComponent  implements AfterViewInit {
     await alert.present();
   }
 
+  resetForm() {
+    this.userEmail = '';
+  }
 
-  resetPassword() {
-    if (this.userEmail) {
+  async resetPassword() {
+    if (!this.userEmail) {
+      await this.showAlert('Error', 'Por favor, introduce un Usuario válido.');
+      return;
+    }
+
+    try {
+      const user = await this.sqliteService.getUserByUsername(this.userEmail);
       
-      if (this.userEmail === this.registeredUser) {
-        console.log('Usuario:', this.userEmail);
-
-        // Si esta bien arroja este mensaje
-        this.showAlert('¡Éxito!', 'Usuario válido. Redirigiendo...');
-
-        // Redirige a la página que deseemos
+      if (user) {
+        await this.showAlert('Solicitud Recibida', 'Lo contactaremos para cambiar su contraseña.');
+        this.resetForm();
+        
         this.router.navigate(['/loading']);
         setTimeout(() => {
-          this.router.navigate(['/login',]);
-        },1500);
+          this.router.navigate(['/login']);
+        }, 1500);
       } else {
-        // Si esta mal arroja este mensaje
-        this.showAlert('Error', 'Usuario no registrado. Por favor, introduce un Usuario válido.');
+        await this.showAlert('Error', 'Usuario no registrado. Por favor, introduce un Usuario válido.');
+        this.resetForm();
       }
-    } else {
-      // Si esta vacio arroja este mensaje
-      this.showAlert('Error', 'Por favor, introduce un Usuario válido.');
+    } catch (error) {
+      console.error('Error al verificar usuario:', error);
+      await this.showAlert('Error', 'Ocurrió un error al verificar el usuario. Por favor, intenta nuevamente.');
+      this.resetForm();
     }
   }
   
   goToLogin() {
-      this.router.navigate(['/loading']);
-      setTimeout(() => {
-        this.router.navigate(['/login',]);
-      },1500);
-    }
-  
+    this.resetForm();
+    this.router.navigate(['/loading']);
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 1500);
+  }
 }
 

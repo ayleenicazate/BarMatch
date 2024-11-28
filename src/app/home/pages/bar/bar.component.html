@@ -30,7 +30,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="bares.length > 0">
           <ion-col>
             <ion-list class="cards-container">
               <ion-card class="centered-card" *ngFor="let bar of bares" (click)="seleccionarBar(bar)">

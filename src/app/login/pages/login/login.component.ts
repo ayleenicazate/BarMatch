@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/authService/auth.service';
 import { IonicModule } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
-import { ReservaService } from 'src/app/services/reservaService/reserva.service';
 import { CommonModule } from '@angular/common';
+import { SqliteService } from 'src/app/services/sqliteService/sqlite.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -15,49 +16,77 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   username: string = '';
   password: string = '';
+  private authSubscription?: Subscription;
 
   constructor(
     private alertController: AlertController, 
     private router: Router, 
     private appComponent: AppComponent,
-    private reservaService: ReservaService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private sqliteService: SqliteService
+  ) {
+    this.authSubscription = this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      if (!isLoggedIn) {
+        this.resetForm();
+      }
+    });
+  }
 
   ngOnInit() {
+    this.resetForm();
   }
 
-  clearFields() {
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+  resetForm() {
     this.username = '';
     this.password = '';
-    
   }
 
-  login() {
-    this.authService.login({ username: this.username, password: this.password }).subscribe(
-      async (response) => {
-        if (response.success) {
-          console.log('Login exitoso');
-          localStorage.setItem('authToken', response.token);
-          const currentUser = this.authService.getCurrentUser();
-          console.log('Usuario actual:', currentUser);
-          this.router.navigate(['/loading']);
+  async login() {
+    if (!this.username || !this.password) {
+      await this.showAlert('Error', 'Por favor ingrese usuario y contraseña');
+      return;
+    }
+
+    try {
+      const result = await this.authService.login({
+        username: this.username,
+        password: this.password
+      });
+      
+      if (result.success) {
+        const redirectUrl = '/home';
+        this.router.navigate(['/loading']).then(() => {
           setTimeout(() => {
-            this.router.navigate(['/home']);
-          }, 1500);  
-        } else {
-          console.error('Error en el login:', response.message);
-          await this.mostrarAlertaCredencialesIncorrectas();
-        }
-      },
-      async (error) => {
-        console.error('Error en el login', error);
-        await this.mostrarAlertaCredencialesIncorrectas();
+            this.router.navigate([redirectUrl]);
+          }, 1500);
+        });
+      } else {
+        await this.showAlert('Error', result.message);
+        this.resetForm();
       }
-    );
+    } catch (error) {
+      console.error('Error en el login:', error);
+      await this.showAlert('Error', 'Error al intentar iniciar sesión');
+      this.resetForm();
+    }
+  }
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   async mostrarAlertaCredencialesIncorrectas() {
@@ -75,6 +104,6 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/login/recuperar-pass']);
     }, 1500);
+    this.resetForm();
   }
-
 }

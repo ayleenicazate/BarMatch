@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class CalendarComponent  implements OnInit {
   username: string='';
   deporte: string='';
+  deporte_id: number=0;
   selectedDate: string = '';
   minDate: string = new Date('2024-11-15').toISOString();
   maxDate: string = new Date('2024-11-20').toISOString();
@@ -25,6 +26,7 @@ export class CalendarComponent  implements OnInit {
   ngOnInit() {
     this.username = this.route.snapshot.paramMap.get('username')||'';
     this.deporte = this.route.snapshot.paramMap.get('deporte')||'';
+    this.deporte_id = parseInt(this.route.snapshot.paramMap.get('deporte_id') || '0');
   }
 
   onDateChange(event: any) {
@@ -44,12 +46,13 @@ export class CalendarComponent  implements OnInit {
       this.router.navigate(['home/encuentros', {
         username: this.username,
         deporte: this.deporte,
+        deporte_id: this.deporte_id,
         fecha: this.selectedDate
       }]);
     }
   }
 
   goToHome() {
-      this.router.navigate(['/home',{username:this.username}]);
+      this.router.navigate(['/home',{username:this.username, deporte:this.deporte}]);
   }
 }

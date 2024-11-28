@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { SqliteService } from '../sqliteService/sqlite.service';
+import { Router } from '@angular/router';
+
 
 interface User {
   username: string;
@@ -14,86 +16,48 @@ export class AuthService {
   public isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  public currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
-
-  private users: User[] = [
-    { username: 'usuario1', password: 'contraseña1' },
-    { username: 'Raúl', password: '1234' }
-  ];
-
-  constructor() {
+  constructor(private sqliteService: SqliteService, private router: Router) {
     this.checkInitialAuthStatus();
   }
 
   private checkInitialAuthStatus() {
-    const token = localStorage.getItem('authToken');
-    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
-    if (token && user) {
-      if (this.validateStoredUser(user)) {
+    const currentUser = sessionStorage.getItem('currentUser');
+    this.isLoggedInSubject.next(!!currentUser);
+  }
+
+  async login(credentials: { username: string, password: string }): Promise<any> {
+    try {
+      const user = await this.sqliteService.getUserByUsername(credentials.username);
+      
+      if (user && user.password === credentials.password) {
+        const userInfo = { username: user.username };
+        sessionStorage.setItem('currentUser', JSON.stringify(userInfo));
         this.isLoggedInSubject.next(true);
-        this.currentUserSubject.next(user);
+        return { success: true, user: userInfo };
       } else {
-        this.logout();
+        this.isLoggedInSubject.next(false);
+        return { success: false, message: 'Credenciales inválidas' };
       }
-    } else {
-      this.logout();
-    }
-  }
-
-  private validateStoredUser(user: User): boolean {
-    return this.users.some(u => u.username === user.username && u.password === user.password);
-  }
-
-  login(credentials: { username: string, password: string }): Observable<any> {
-    const result = this.checkCredentials(credentials);
-    return of(result).pipe(
-      tap(response => {
-        if (response.success) {
-          localStorage.setItem('authToken', response.token);
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
-          this.isLoggedInSubject.next(true);
-          this.currentUserSubject.next(response.user);
-        } else {
-          this.logout();
-        }
-      })
-    );
-  }
-
-  private checkCredentials(credentials: { username: string, password: string }): any {
-    const user = this.users.find(u => u.username === credentials.username && u.password === credentials.password);
-    if (user) {
-      const { password, ...userWithoutPassword } = user;
-      return { 
-        success: true, 
-        token: 'fake-jwt-token',
-        user: userWithoutPassword
-      };
-    } else {
-      return { success: false, message: 'Credenciales inválidas' };
+    } catch (error) {
+      this.isLoggedInSubject.next(false);
+      console.error('Error en login:', error);
+      return { success: false, message: 'Error en el servidor' };
     }
   }
 
   logout() {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUserSubject');
+    sessionStorage.removeItem('currentUser');
     this.isLoggedInSubject.next(false);
-    this.currentUserSubject.next(null);
+    this.router.navigate(['/login']);
   }
 
-  logoutmenu() {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUserSubject');
-    this.isLoggedInSubject.next(false);
+  getCurrentUser(): any {
+    const userStr = sessionStorage.getItem('currentUser');
+    return userStr ? JSON.parse(userStr) : null;
   }
 
-  isAuthenticated(): boolean {
-    return this.isLoggedInSubject.value;
-  }
-
-  getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
+  isAuthenticated(): Observable<boolean> {
+    return this.isLoggedIn$;
   }
 
 }

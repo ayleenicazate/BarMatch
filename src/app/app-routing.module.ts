@@ -23,8 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'loading',
-    loadChildren: () => import('./loading/loading.module').then(m => m.LoadingModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./loading/loading.module').then(m => m.LoadingModule)
   },
   {
     path: 'reservas',
