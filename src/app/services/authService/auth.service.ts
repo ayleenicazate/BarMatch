@@ -3,17 +3,18 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SqliteService } from '../sqliteService/sqlite.service';
 import { Router } from '@angular/router';
 
+
 interface User {
   username: string;
-  password: string;
+  password?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  public isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   constructor(private sqliteService: SqliteService, private router: Router) {
     this.checkInitialAuthStatus();
@@ -58,4 +59,5 @@ export class AuthService {
   isAuthenticated(): Observable<boolean> {
     return this.isLoggedIn$;
   }
+
 }

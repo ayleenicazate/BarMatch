@@ -7,6 +7,7 @@ import { SqliteService } from './services/sqliteService/sqlite.service';
 import { AuthService } from './services/authService/auth.service';
 import { AvatarService } from './services/apiService/api.service';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -25,6 +26,7 @@ export class AppComponent  {
     private router: Router,
     private menuCtrl: MenuController,
     private route: ActivatedRoute,
+
 
     private platform: Platform,
     private sqlite: SqliteService,

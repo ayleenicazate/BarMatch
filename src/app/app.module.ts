@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthGuard } from './guard/auth.guard';
 
 import { defineCustomElements as jeepSqlite } from 'jeep-sqlite/loader'
 import { HttpClientModule } from '@angular/common/http';

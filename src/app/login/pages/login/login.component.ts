@@ -89,6 +89,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  async mostrarAlertaCredencialesIncorrectas() {
+    const alert = await this.alertController.create({
+      header: 'Error de inicio de sesión',
+      message: 'Credenciales incorrectas. Por favor, inténtelo de nuevo.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
   goToRecuperarPass() {
     this.router.navigate(['/loading']);
     setTimeout(() => {
