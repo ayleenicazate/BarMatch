@@ -83,8 +83,7 @@ export class SqliteService {
         
         // Importamos la base de datos con los datos iniciales
         const importResult = await CapacitorSQLite.importFromJson({ jsonstring });
-        console.log('Resultado de importación:', importResult);
-        
+                
         // Creamos y abrimos la conexión
         await CapacitorSQLite.createConnection({ database: this.dbName });
         await CapacitorSQLite.open({ database: this.dbName });
@@ -143,8 +142,6 @@ export class SqliteService {
     `;
     const dbName = await this.getDbName();
 
-    console.log('Buscando encuentros con:', { deporteId, fecha });
-
     return CapacitorSQLite.query({
       database: dbName,
       statement: sql,
@@ -185,8 +182,6 @@ export class SqliteService {
       SELECT * FROM encuentro_bar WHERE encuentro_id = ? 
     `;
     const dbName = await this.getDbName();
-
-    console.log('Buscando encuentro_bar con:', { encuentroId });
 
     return CapacitorSQLite.query({
       database: dbName,
@@ -244,7 +239,6 @@ export class SqliteService {
         await CapacitorSQLite.saveToStore({ database: dbName });
       }
 
-      console.log('Reserva creada en SQLite:', result);
       return { success: true, reserva: reserva };
 
     } catch (error) {
@@ -280,8 +274,6 @@ export class SqliteService {
       if (this.isIOS && result.values.length > 0) {
         result.values.shift();
       }
-
-      console.log('Reservas encontradas en SQLite para', username, ':', result.values);
       return result.values;
 
     } catch (error) {

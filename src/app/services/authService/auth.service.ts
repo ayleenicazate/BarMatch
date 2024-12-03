@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SqliteService } from '../sqliteService/sqlite.service';
 import { Router } from '@angular/router';
-
-
-interface User {
-  username: string;
-  password?: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +26,7 @@ export class AuthService {
       if (user && user.password === credentials.password) {
         const userInfo = { username: user.username };
         sessionStorage.setItem('currentUser', JSON.stringify(userInfo));
+        localStorage.setItem('lastUsername', user.username);
         this.isLoggedInSubject.next(true);
         return { success: true, user: userInfo };
       } else {
@@ -49,6 +44,10 @@ export class AuthService {
     sessionStorage.removeItem('currentUser');
     this.isLoggedInSubject.next(false);
     this.router.navigate(['/login']);
+  }
+
+  getLastUsername(): string {
+    return localStorage.getItem('lastUsername') || '';
   }
 
   getCurrentUser(): any {

@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.resetForm();
+    this.username = this.authService.getLastUsername();
+    this.password = '';
   }
 
   ngOnDestroy() {
@@ -46,7 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   resetForm() {
-    this.username = '';
     this.password = '';
   }
 

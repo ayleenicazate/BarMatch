@@ -57,8 +57,6 @@ export class ConfirmacionComponent implements OnInit {
         barDireccion: this.barDireccion
       };
       const result = await this.sqlite.createReserva(reservaData);
-      console.log('Reserva guardada exitosamente', result);
-
     } catch (error) {
       console.error('Error al guardar la reserva:', error);
     }

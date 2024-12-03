@@ -23,18 +23,15 @@ export class MireservaComponent implements OnInit {
   ngOnInit() {
     this.username = this.route.snapshot.paramMap.get('username') || '';
     
-
-    // Intenta obtenerlos de los parámetros de la ruta
-    if (Object.keys(this.reserva).length === 0) {
-      this.reserva = {
-        deporte: this.route.snapshot.paramMap.get('deporte') || '',
-        fecha: this.route.snapshot.paramMap.get('fecha') || '',
-        barNombre: this.route.snapshot.paramMap.get('barNombre') || '',
-        encuentroNombre: this.route.snapshot.paramMap.get('encuentroNombre') || '',
-        cantidad_personas: Number(this.route.snapshot.paramMap.get('cantidad_personas')) || 0,
-        barDireccion: this.route.snapshot.paramMap.get('barDireccion') || ''
-      };
-    }
+    // Obtener todos los parámetros de la ruta y asignarlos directamente
+    this.reserva = {
+      deporte: this.route.snapshot.paramMap.get('deporte'),
+      fecha: this.route.snapshot.paramMap.get('fecha'),
+      barNombre: this.route.snapshot.paramMap.get('barNombre'),
+      encuentroNombre: this.route.snapshot.paramMap.get('encuentroNombre'),
+      cantidad_personas: this.route.snapshot.paramMap.get('cantidad_personas'),
+      barDireccion: this.route.snapshot.paramMap.get('barDireccion')
+    };
   }
 
   goToHome() {
@@ -46,14 +43,8 @@ export class MireservaComponent implements OnInit {
   }
 
   goToReserva() {
-    this.router.navigate(['/reservas/mireserva', {
-      username: this.route.snapshot.paramMap.get('username') || '',
-      fecha: this.route.snapshot.paramMap.get('fecha') || '',
-      barNombre: this.route.snapshot.paramMap.get('barNombre') || '',
-      encuentroNombre: this.route.snapshot.paramMap.get('encuentroNombre') || '',
-      cantidad_personas: Number(this.route.snapshot.paramMap.get('cantidad_personas')) || 0,
-      barDireccion: this.route.snapshot.paramMap.get('barDireccion') || ''
-    }]);
+    // Simplificamos esta función ya que estamos en la misma página
+    return;
   }
 
   goToMisReservas() {

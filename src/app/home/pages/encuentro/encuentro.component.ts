@@ -63,7 +63,6 @@ export class EncuentroComponent implements OnInit, OnDestroy {
                 nombre: e.nombre
               }));
               
-              console.log('Encuentros cargados:', this.encuentros);
             } catch (error) {
               console.error('Error al cargar encuentros:', error);
               this.dbError = true;

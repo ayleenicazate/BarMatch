@@ -17,6 +17,9 @@ export class LoadComponent  implements AfterViewInit {
   @ViewChildren(IonCard, { read: ElementRef }) cardElements!: QueryList<ElementRef<HTMLIonCardElement>>;
 
   private animation!: Animation;
+  private isPlaying = false;
+  private isPaused = false;
+  private isStopped = true;
 
   constructor(private animationCtrl: AnimationController) { }
 
@@ -48,14 +51,36 @@ export class LoadComponent  implements AfterViewInit {
 
   play() {
     this.animation.play();
+    this.isPlaying = true;
+    this.isPaused = false;
+    this.isStopped = false;
   }
 
   pause() {
     this.animation.pause();
+    this.isPlaying = false;
+    this.isPaused = true;
+    this.isStopped = false;
   }
 
   stop() {
     this.animation.stop();
+    this.isPlaying = false;
+    this.isPaused = false;
+    this.isStopped = true;
+  }
+
+  // Métodos para verificar el estado
+  isAnimationPlaying(): boolean {
+    return this.isPlaying;
+  }
+
+  isAnimationPaused(): boolean {
+    return this.isPaused;
+  }
+
+  isAnimationStopped(): boolean {
+    return this.isStopped;
   }
 
 }

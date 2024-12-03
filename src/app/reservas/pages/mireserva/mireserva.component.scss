@@ -104,15 +104,23 @@ ion-app {
   }
   ion-card-content {
     --background: hsl(225, 22%, 96%);
-  }
-  ion-card-content p {
-    --background: #f4f5f8;
-    font-size: 12px;
-    color: #000000;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin-top: 80px;
-      }
-  
+    min-height: 100px;
+
+    ion-label {
+      --background: #f4f5f8;
+      font-size: 12px;
+      color: #000000;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      margin-top: 80px;
+      padding: 0 15px;
+    }
+  }
+
   ion-card-title {
     font-size: 40px;
     font-weight: bold;
@@ -126,7 +134,16 @@ ion-app {
     color: #000000;
     text-align: center;
   }
-
+  
+  ion-label {
+    --background: #f4f5f8;
+    font-size: 12px;
+    color: #000000;
+    text-align: center;
+    margin-top: 80px;
+    align-items: center;
+    justify-content: center;
+  }
   
   ion-buttons {
     z-index: 1;
@@ -165,4 +182,20 @@ ion-app {
     font-size: 10px;
     margin-top: 5px;
     width: 100px;
+  }
+
+  // Por si acaso estamos usando ion-item
+  ion-card-content ion-item {
+    --background: #f4f5f8;
+    width: 100%;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-end: 0;
+    
+    ion-label {
+      font-size: 12px;
+      color: #000000;
+      text-align: center;
+      margin-top: 80px;
+    }
   }

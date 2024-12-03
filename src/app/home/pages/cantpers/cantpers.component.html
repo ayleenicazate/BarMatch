@@ -38,7 +38,13 @@
                 </ion-select>               
               </ion-item>
               
-              <ion-button class="principal" expand="block" (click)="goToConfirmacion()"> Confirmar </ion-button>
+              <ion-button 
+                class="principal" 
+                expand="block" 
+                (click)="goToConfirmacion()"
+                [disabled]="!puedeConfirmar()">
+                Confirmar
+              </ion-button>
               <ion-button class="secundario" (click)="goToHome()"> Cancelar </ion-button>
             </ion-col>
           </ion-row>

@@ -15,7 +15,7 @@ export class CantpersComponent  implements OnInit {
   username: string='';
   deporte: string='';
   fecha: string='';
-  cantidad_personas: number = 0;
+  cantidad_personas: number | null = null;
   bar_id: number = 0;
   barNombre: string='';
   barDireccion: string='';
@@ -36,21 +36,27 @@ export class CantpersComponent  implements OnInit {
     
   }
 
+  puedeConfirmar(): boolean {
+    return this.cantidad_personas !== null && this.cantidad_personas > 0;
+  }
+
   goToConfirmacion() {
-    this.router.navigate(['/home/confirmacion', {
-      username: this.username,
-      deporte: this.deporte,
-      fecha: this.fecha,
-      bar_id: this.bar_id,
-      barNombre: this.barNombre,
-      barDireccion: this.barDireccion,
-      encuentro_id: this.encuentro_id,
-      encuentroNombre: this.encuentroNombre,
-      cantidad_personas: this.cantidad_personas
-    }]);
+    if (this.puedeConfirmar()) {
+      this.router.navigate(['/home/confirmacion', {
+        username: this.username,
+        deporte: this.deporte,
+        fecha: this.fecha,
+        bar_id: this.bar_id,
+        barNombre: this.barNombre,
+        barDireccion: this.barDireccion,
+        encuentro_id: this.encuentro_id,
+        encuentroNombre: this.encuentroNombre,
+        cantidad_personas: this.cantidad_personas
+      }]);
+    }
   }
 
   goToHome() {
-      this.router.navigate(['/home',{username:this.username}]);
+    this.router.navigate(['/home',{username:this.username}]);
   }
 }

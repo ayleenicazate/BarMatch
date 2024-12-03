@@ -63,15 +63,11 @@ export class BarComponent implements OnInit, OnDestroy {
   async cargarBares() {
     try {
       const encuentroBares = await this.sqlite.readEncuentroBar(this.encuentro_id);
-      console.log('EncuentroBares encontrados:', encuentroBares);
-
       this.bares = [];
 
       for (const encuentroBar of encuentroBares) {
         if (encuentroBar && encuentroBar.bar_id) {
           const baresEncontrados = await this.sqlite.readBares(encuentroBar.bar_id);
-          console.log('Bares encontrados para ID', encuentroBar.bar_id, ':', baresEncontrados);
-          
           if (Array.isArray(baresEncontrados) && baresEncontrados.length > 0) {
             baresEncontrados.forEach(bar => {
               if (bar) {
@@ -85,9 +81,6 @@ export class BarComponent implements OnInit, OnDestroy {
           }
         }
       }
-
-      console.log('Total de bares cargados:', this.bares.length);
-      console.log('Bares cargados:', this.bares);
     } catch (error) {
       console.error('Error al cargar bares:', error);
       this.dbError = true;
@@ -95,7 +88,6 @@ export class BarComponent implements OnInit, OnDestroy {
   }
 
   seleccionarBar(bar: Bar) {
-    console.log('Bar seleccionado:', bar);
     this.router.navigate(['/home/cantpers', {
       username: this.username,
       deporte: this.deporte,

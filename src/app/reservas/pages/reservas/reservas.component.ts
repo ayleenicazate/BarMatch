@@ -34,13 +34,9 @@ export class ReservasComponent implements OnInit {
   async loadReservas() {
     try {
       const result = await this.sqliteService.getReservasByUsername(this.username);
-      console.log('Resultado de getReservasByUsername:', result);
-      
       if (result && result.length > 0) {
         this.reservas = result;
-        console.log('Reservas cargadas:', this.reservas);
       } else {
-        console.log('No se encontraron reservas');
         this.reservas = [];
       }
     } catch (error) {
@@ -55,15 +51,13 @@ export class ReservasComponent implements OnInit {
 
   goToReserva(reserva: any) {
     this.router.navigate(['/reservas/mireserva', {
-      reserva_id: reserva.reserva_id,
       username: this.username,
       deporte: reserva.deporte,
       fecha: reserva.fecha,
       barNombre: reserva.barNombre,
       encuentroNombre: reserva.encuentroNombre,
       cantidad_personas: reserva.cantidad_personas,
-      barDireccion: reserva.barDireccion,
-      fecha_reserva: reserva.fecha_reserva
+      barDireccion: reserva.barDireccion
     }]);
   }
 }

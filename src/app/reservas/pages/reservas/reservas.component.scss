@@ -82,8 +82,9 @@ ion-app {
   .cards-container {
     width: 100%;
     background-color: white;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
   }
   
   .centered-card {
@@ -92,8 +93,8 @@ ion-app {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --background: #f4f5f8;
     cursor: pointer;
-    align-items: center;
-    justify-content: center;
+    width: 90%;
+    max-width: 500px;
   }
   
   .no-encuentros {
@@ -106,22 +107,29 @@ ion-app {
   
   ion-card-header {
     --background: #f4f5f8;
-    align-items: left;
+    text-align: center;
   }
   ion-card-content {
     --background: #f4f5f8;
-    align-items: left;
+    padding: 16px;
+    
+    p {
+      text-align: center;
+      margin: 8px 0;
+      color: #000000;
+      font-size: 14px;
 
-  }
-  ion-card-content p {
-    --background: #f4f5f8;
-    margin-left: 209px;
+      .label-bold {
+        font-weight: bold;
+      }
+    }
   }
   
   ion-card-title {
     font-size: 20px;
     font-weight: bold;
     color: #000000;
+    text-align: center;
   }
   
   ion-buttons {

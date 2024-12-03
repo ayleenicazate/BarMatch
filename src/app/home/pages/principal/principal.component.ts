@@ -57,7 +57,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
               });
             }
           }
-          console.log('Deportes cargados:', this.deportes);
         }
       });
 
@@ -78,13 +77,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   goToCalendar(deporte: Deporte) {
     this.router.navigate(['home/calendar', { username: this.username, deporte: deporte.nombre, deporte_id: deporte.deporte_id }]);
-  }
-
-  goToLogin() {
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
-      this.router.navigate(['/login']);
-    }, 1500);
   }
 
   goToHome() {

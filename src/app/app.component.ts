@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { MenuController, Platform } from '@ionic/angular';
+import { MenuController, Platform, IonRouterOutlet } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { Device } from '@capacitor/device';
 import { SqliteService } from './services/sqliteService/sqlite.service';
@@ -13,7 +13,7 @@ import { AvatarService } from './services/apiService/api.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent  {
+export class AppComponent implements AfterViewInit  {
 
   public isWeb: boolean;
   public load: boolean;
@@ -21,6 +21,7 @@ export class AppComponent  {
 
   username: string = '';
 
+  @ViewChild(IonRouterOutlet) routerOutlet: IonRouterOutlet;
 
   constructor(
     private router: Router,
@@ -69,8 +70,27 @@ export class AppComponent  {
 
   }
 
+  ngAfterViewInit() {
+    document.addEventListener('focusin', (event) => {
+      const target = event.target as HTMLElement;
+      
+      // Permitir foco en elementos interactivos
+      const isInteractiveElement = target.matches('input, textarea, select, button, [contenteditable="true"], a');
+      
+      if (this.routerOutlet && 
+          this.routerOutlet.nativeEl.contains(target) && 
+          !isInteractiveElement) {
+        target.blur();
+      }
+    });
+  }
 
   navigateTo(page: string) {
+    const activeElement = document.activeElement as HTMLElement;
+    if (activeElement) {
+      activeElement.blur();
+    }
+    
     this.router.navigate(['/loading']);
     setTimeout(() => {
       const currentUser = this.authService.getCurrentUser();
