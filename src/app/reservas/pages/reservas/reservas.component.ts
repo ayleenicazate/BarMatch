@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SqliteService } from '../../../services/sqliteService/sqlite.service';
 
@@ -16,21 +16,22 @@ export class ReservasComponent implements OnInit {
   reservas: any[] = [];
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private sqliteService: SqliteService
   ) { }
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username') || '';
+    // Recuperar username del history state
+    const state = history.state;
+    if (state) {
+      this.username = state.username;
+    }
   }
 
-  // Este método se ejecuta cada vez que la página se muestra
   ionViewWillEnter() {
     this.loadReservas();
   }
 
-  // Método separado para cargar las reservas
   async loadReservas() {
     try {
       const result = await this.sqliteService.getReservasByUsername(this.username);
@@ -46,18 +47,28 @@ export class ReservasComponent implements OnInit {
   }
 
   goToHome() {
-    this.router.navigate(['/home', { username: this.username }]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
+
+    this.router.navigate(['/home'], navigationExtras);
   }
 
   goToReserva(reserva: any) {
-    this.router.navigate(['/reservas/mireserva', {
-      username: this.username,
-      deporte: reserva.deporte,
-      fecha: reserva.fecha,
-      barNombre: reserva.barNombre,
-      encuentroNombre: reserva.encuentroNombre,
-      cantidad_personas: reserva.cantidad_personas,
-      barDireccion: reserva.barDireccion
-    }]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username,
+        deporte: reserva.deporte,
+        fecha: reserva.fecha,
+        barNombre: reserva.barNombre,
+        encuentroNombre: reserva.encuentroNombre,
+        cantidad_personas: reserva.cantidad_personas,
+        barDireccion: reserva.barDireccion
+      }
+    };
+
+    this.router.navigate(['/reservas/mireserva'], navigationExtras);
   }
 }

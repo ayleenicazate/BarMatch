@@ -4,9 +4,13 @@ ion-content {
     align-items: center;
     height: 100%;
     --background: white !important;  
-  }
   
-  .card-carga {
+    &::part(scroll) {
+        overflow: hidden;
+    }
+}
+  
+.card-carga {
     width: 100px;
     height: 100px;
     background-color: white;
@@ -15,7 +19,8 @@ ion-content {
     align-items: center;
     display: flex;
     justify-content: center;
-  }
+}
+
 ion-image.card-carga{
-  align-items: center;
+    align-items: center;
 }

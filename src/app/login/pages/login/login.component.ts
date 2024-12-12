@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { AuthService } from '../../../services/authService/auth.service';
 import { IonicModule } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
@@ -62,11 +62,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: this.password
       });
       
-      if (result.success) {
-        const redirectUrl = '/home';
+      if (result.success==true) {
+        const navigationExtras: NavigationExtras = {
+          state: {
+            username: this.username
+          }
+        };
+
         this.router.navigate(['/loading']).then(() => {
           setTimeout(() => {
-            this.router.navigate([redirectUrl]);
+            this.router.navigate(['/home'], navigationExtras);
           }, 1500);
         });
       } else {

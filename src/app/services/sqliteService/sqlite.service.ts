@@ -52,20 +52,35 @@ export class SqliteService {
   }
 
   async setupDatabase() {
+    try {
+      const dbSetup = await Preferences.get({ key: 'first_setup_key' });
 
-    const dbSetup = await Preferences.get({ key: 'first_setup_key' })
-
-    // Sino la hemos creado, descargamos y creamos la base de datos
-    if (!dbSetup.value) {
-      this.downloadDatabase();
-    } else {
-      // Nos volvemos a conectar
-      this.dbName = await this.getDbName();
-      await CapacitorSQLite.createConnection({ database: this.dbName });
-      await CapacitorSQLite.open({ database: this.dbName })
-      this.dbReady.next(true);
+      // Sino la hemos creado, descargamos y creamos la base de datos
+      if (!dbSetup.value) {
+        await this.downloadDatabase();
+      } else {
+        // Nos volvemos a conectar
+        this.dbName = await this.getDbName();
+        await CapacitorSQLite.createConnection({ database: this.dbName });
+        await CapacitorSQLite.open({ database: this.dbName });
+        
+        // Verificamos que la tabla usuarios existe
+        try {
+          await CapacitorSQLite.query({
+            database: this.dbName,
+            statement: 'SELECT * FROM usuarios LIMIT 1'
+          });
+          this.dbReady.next(true);
+        } catch (error) {
+          console.error('Error verificando tabla usuarios:', error);
+          // Si la tabla no existe, reseteamos la base de datos
+          await this.resetDatabase();
+        }
+      }
+    } catch (error) {
+      console.error('Error en setupDatabase:', error);
+      await this.resetDatabase();
     }
-
   }
 
   async downloadDatabase() {
@@ -305,6 +320,24 @@ export class SqliteService {
       console.error('Error al obtener usuario:', err);
       return Promise.reject(err);
     });
+  }
+
+  async resetDatabase() {
+    try {
+      // Eliminar las preferencias
+      await Preferences.remove({ key: 'first_setup_key' });
+      await Preferences.remove({ key: 'dbname' });
+
+      // Si estamos en web, eliminar la base de datos del store
+      if (this.isWeb) {
+        await CapacitorSQLite.deleteDatabase({ database: this.dbName });
+      }
+
+      // Reiniciar la aplicación
+      window.location.reload();
+    } catch (error) {
+      console.error('Error reseteando la base de datos:', error);
+    }
   }
 
 }

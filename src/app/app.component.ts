@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationExtras } from '@angular/router';
 import { MenuController, Platform, IonRouterOutlet } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { Device } from '@capacitor/device';
@@ -51,12 +51,6 @@ export class AppComponent implements AfterViewInit  {
         this.load = load;
       })
 
-      const currentUser = this.authService.getCurrentUser();
-      if (currentUser) {
-        this.username = currentUser.username;
-        this.avatarUrl = this.avatarService.getAvatar(this.username);
-      }
-
       this.authService.isLoggedIn$.subscribe(isLoggedIn => {
         if (isLoggedIn) {
           const user = this.authService.getCurrentUser();
@@ -74,7 +68,6 @@ export class AppComponent implements AfterViewInit  {
     document.addEventListener('focusin', (event) => {
       const target = event.target as HTMLElement;
       
-      // Permitir foco en elementos interactivos
       const isInteractiveElement = target.matches('input, textarea, select, button, [contenteditable="true"], a');
       
       if (this.routerOutlet && 
@@ -91,25 +84,43 @@ export class AppComponent implements AfterViewInit  {
       activeElement.blur();
     }
     
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
-      const currentUser = this.authService.getCurrentUser();
-      const navigationExtras = currentUser ? { username: currentUser.username } : {};
-      
-      switch (page) {
-        case 'home':
-          this.router.navigate(['/home', navigationExtras]);
-          break;
-        case 'reservas':
-          this.router.navigate(['/reservas', navigationExtras]);
-          break;
-        case 'login':
-          this.router.navigate(['/login']);
-          break;
-        default:
-          this.router.navigate([`/${page}`, navigationExtras]);
+    const currentUser = this.authService.getCurrentUser();
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: currentUser ? currentUser.username : ''
       }
-    }, 1500);
+    };
+
+    this.router.navigate(['/loading']).then(() => {
+      setTimeout(() => {
+        switch (page) {
+          case 'home':
+            if (currentUser) {
+              this.router.navigate(['/home'], navigationExtras);
+            } else {
+              this.router.navigate(['/login']);
+            }
+            break;
+          case 'reservas':
+            if (currentUser) {
+              this.router.navigate(['/reservas'], navigationExtras);
+            } else {
+              this.router.navigate(['/login']);
+            }
+            break;
+          case 'login':
+            this.router.navigate(['/login']);
+            break;
+          default:
+            if (currentUser) {
+              this.router.navigate([`/${page}`], navigationExtras);
+            } else {
+              this.router.navigate(['/login']);
+            }
+        }
+      }, 1500);
+    });
+    
     this.menuCtrl.close();
   }
 

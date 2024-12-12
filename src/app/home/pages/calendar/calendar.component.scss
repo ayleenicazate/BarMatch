@@ -72,7 +72,8 @@ ion-content {
   ion-card {
     max-width: 500px;
     width: 90%;
-    height: 450px;
+    height: 500px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,6 +84,39 @@ ion-content {
     overflow: hidden;
     margin: 0 auto;
 
+    .mat-calendar {
+      width: 210px;
+      height: 210px;
+      background-color: transparent;
+      transform: scale(1.5);
+      transform-origin: top center;
+      margin-bottom: 100px;
+    }
+
+    ::ng-deep .mat-calendar-body-cell {
+      height: 60px;
+      width: 60px;
+    }
+
+    ::ng-deep .mat-calendar-body-cell-content {
+      font-size: 18px;
+      height: 55px;
+      width: 55px;
+      line-height: 55px;
+    }
+
+    ::ng-deep .mat-calendar-body-selected {
+      background-color: #F28627;
+      color: #000000;
+    }
+
+    ::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+      border-color: #F28627;
+    }
+
+    ion-card-content {
+      margin-bottom: 50px;
+    }
   }
   
   ion-card-header {
@@ -92,7 +126,9 @@ ion-content {
     width: 100%;
     background-color: whitesmoke;
     text-align: center;
-    margin-top: -15px;
+    margin-top: -50px;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
    
@@ -135,6 +171,20 @@ ion-content {
   
     ion-card-subtitle {
       font-size: 12px;
+    }
+
+    ion-card {
+      ::ng-deep .mat-calendar-body-cell {
+        height: 35px;
+        width: 35px;
+      }
+
+      ::ng-deep .mat-calendar-body-cell-content {
+        font-size: 14px;
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+      }
     }
   }
 
@@ -202,4 +252,11 @@ ion-content {
     color: var(--ion-color-primary);
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  ion-card-content {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }

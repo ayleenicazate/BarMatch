@@ -26,13 +26,12 @@
           </ion-card-header>
       
           <ion-card-content>
-            <ion-datetime
-              presentation="date"
-              [min]="minDate"
-              [max]="maxDate"
-              [(ngModel)]="selectedDate"
-              (ionChange)="onDateChange($event)"
-            ></ion-datetime>
+            <mat-calendar
+              [minDate]="minDateObj"
+              [maxDate]="maxDateObj"
+              [(selected)]="selectedDateObj"
+              (selectedChange)="onDateChange($event)"
+            ></mat-calendar>
           </ion-card-content>
         </ion-card>
       

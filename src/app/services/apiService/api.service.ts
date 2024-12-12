@@ -12,9 +12,9 @@ export class AvatarService {
   getAvatar(name: string) {
     const params = {
       name: name,
-      background: '0000AD', // Color de fondo (azul que usas en tu app)
-      color: 'fff', // Color del texto (blanco)
-      size: '128', // Tamaño del avatar
+      background: '0000AD', 
+      color: 'fff', 
+      size: '128', 
       bold: 'true',
       format: 'png'
     };

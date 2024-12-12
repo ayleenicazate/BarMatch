@@ -2,16 +2,15 @@
   <ion-menu side="start" contentId="main-content">
     <ion-header>
       <ion-toolbar>
-        <div class="menu-header">
+        <ion-item lines="none">
           <ion-title>Menú</ion-title>
-          <div class="avatar-container">
-            <img [src]="avatarUrl" class="avatar-image" alt="Avatar">
-          </div>
-        </div>
+          <ion-avatar slot="end">
+            <ion-img [src]="avatarUrl" alt="Avatar"></ion-img>
+          </ion-avatar>
+        </ion-item>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-
       <ion-list>
         <ion-item (click)="navigateTo('home')">
           <ion-label>Inicio</ion-label>

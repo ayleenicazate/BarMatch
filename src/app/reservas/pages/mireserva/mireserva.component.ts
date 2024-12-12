@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,38 +16,48 @@ export class MireservaComponent implements OnInit {
   reserva: any = {};
 
   constructor(
-    private route: ActivatedRoute, 
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username') || '';
-    
-    // Obtener todos los parámetros de la ruta y asignarlos directamente
-    this.reserva = {
-      deporte: this.route.snapshot.paramMap.get('deporte'),
-      fecha: this.route.snapshot.paramMap.get('fecha'),
-      barNombre: this.route.snapshot.paramMap.get('barNombre'),
-      encuentroNombre: this.route.snapshot.paramMap.get('encuentroNombre'),
-      cantidad_personas: this.route.snapshot.paramMap.get('cantidad_personas'),
-      barDireccion: this.route.snapshot.paramMap.get('barDireccion')
-    };
+    // Recuperar datos del history state
+    const state = history.state;
+    if (state) {
+      this.username = state.username;
+      this.reserva = {
+        deporte: state.deporte,
+        fecha: state.fecha,
+        barNombre: state.barNombre,
+        encuentroNombre: state.encuentroNombre,
+        cantidad_personas: state.cantidad_personas,
+        barDireccion: state.barDireccion
+      };
+    }
   }
 
   goToHome() {
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
-      this.router.navigate(['/home'],);
-    }, 1500);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
 
+    this.router.navigate(['/loading']).then(() => {
+      setTimeout(() => {
+        this.router.navigate(['/home'], navigationExtras);
+      }, 1500);
+    });
   }
 
-  goToReserva() {
-    // Simplificamos esta función ya que estamos en la misma página
-    return;
-  }
+
 
   goToMisReservas() {
-    this.router.navigate(['/reservas', { username: this.username }]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
+
+    this.router.navigate(['/reservas'], navigationExtras);
   }
 }

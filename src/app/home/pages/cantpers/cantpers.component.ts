@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
@@ -25,15 +25,17 @@ export class CantpersComponent  implements OnInit {
   constructor(private route:ActivatedRoute, private router:Router ) { }
 
   ngOnInit() {
-    this.username = this.route.snapshot.paramMap.get('username')||'';
-    this.deporte = this.route.snapshot.paramMap.get('deporte')||'';
-    this.fecha = this.route.snapshot.paramMap.get('fecha')||'';
-    this.barNombre = this.route.snapshot.paramMap.get('barNombre')||'';
-    this.bar_id = Number(this.route.snapshot.paramMap.get('bar_id'));
-    this.barDireccion = this.route.snapshot.paramMap.get('barDireccion')||'';
-    this.encuentro_id = Number(this.route.snapshot.paramMap.get('encuentro_id'));
-    this.encuentroNombre = this.route.snapshot.paramMap.get('encuentroNombre')||'';
-    
+    const state = history.state;
+    if (state) {
+      this.username = state.username;
+      this.deporte = state.deporte;
+      this.fecha = state.fecha;
+      this.barNombre = state.barNombre;
+      this.bar_id = state.bar_id;
+      this.barDireccion = state.barDireccion;
+      this.encuentro_id = state.encuentro_id;
+      this.encuentroNombre = state.encuentroNombre;
+    }
   }
 
   puedeConfirmar(): boolean {
@@ -42,21 +44,31 @@ export class CantpersComponent  implements OnInit {
 
   goToConfirmacion() {
     if (this.puedeConfirmar()) {
-      this.router.navigate(['/home/confirmacion', {
-        username: this.username,
-        deporte: this.deporte,
-        fecha: this.fecha,
-        bar_id: this.bar_id,
-        barNombre: this.barNombre,
-        barDireccion: this.barDireccion,
-        encuentro_id: this.encuentro_id,
-        encuentroNombre: this.encuentroNombre,
-        cantidad_personas: this.cantidad_personas
-      }]);
+      const navigationExtras: NavigationExtras = {
+        state: {
+          username: this.username,
+          deporte: this.deporte,
+          fecha: this.fecha,
+          bar_id: this.bar_id,
+          barNombre: this.barNombre,
+          barDireccion: this.barDireccion,
+          encuentro_id: this.encuentro_id,
+          encuentroNombre: this.encuentroNombre,
+          cantidad_personas: this.cantidad_personas
+        }
+      };
+
+      this.router.navigate(['/home/confirmacion'], navigationExtras);
     }
   }
 
   goToHome() {
-    this.router.navigate(['/home',{username:this.username}]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
+
+    this.router.navigate(['/home'], navigationExtras);
   }
 }

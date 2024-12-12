@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { SqliteService } from '../../../services/sqliteService/sqlite.service';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -32,17 +32,20 @@ export class EncuentroComponent implements OnInit, OnDestroy {
   private dbSubscription?: Subscription;
 
   constructor(
-    private route: ActivatedRoute, 
     private router: Router,
     private sqlite: SqliteService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     try {
-      this.username = this.route.snapshot.paramMap.get('username') || '';
-      this.deporte_id = parseInt(this.route.snapshot.paramMap.get('deporte_id') || '0');
-      this.deporte = this.route.snapshot.paramMap.get('deporte') || '';
-      this.fechaSeleccionada = this.route.snapshot.paramMap.get('fecha') || '';
+      // Recuperar datos del history state
+      const state = history.state;
+      if (state) {
+        this.username = state.username;
+        this.deporte = state.deporte;
+        this.deporte_id = state.deporte_id;
+        this.fechaSeleccionada = state.fecha;
+      }
 
       await this.sqlite.init();
       
@@ -82,24 +85,43 @@ export class EncuentroComponent implements OnInit, OnDestroy {
   }
 
   seleccionarEncuentro(encuentro: Encuentro) {
-    this.router.navigate(['/home/bar', {
-      username: this.username,
-      encuentro_id: encuentro.id,
-      encuentro_nombre: encuentro.nombre,
-      deporte_id: encuentro.deporte_id,
-      deporte: this.deporte,
-      fecha: encuentro.fecha
-    }]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username,
+        encuentro_id: encuentro.id,
+        encuentro_nombre: encuentro.nombre,
+        deporte_id: encuentro.deporte_id,
+        deporte: this.deporte,
+        fecha: encuentro.fecha
+      }
+    };
+
+    this.router.navigate(['/home/bar'], navigationExtras);
   }
 
   goToHome() {
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
-      this.router.navigate(['/home', {username: this.username}]);
-    }, 1500);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
+
+    this.router.navigate(['/loading']).then(() => {
+      setTimeout(() => {
+        this.router.navigate(['/home'], navigationExtras);
+      }, 1500);
+    });
   }
 
   goToCalendar() {
-      this.router.navigate(['/home/calendar', {username: this.username, deporte: this.deporte, deporte_id: this.deporte_id}]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username,
+        deporte: this.deporte,
+        deporte_id: this.deporte_id
+      }
+    };
+
+    this.router.navigate(['/home/calendar'], navigationExtras);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from 'src/app/login/pages/login/login.component';
 import { AuthService } from '../../../services/authService/auth.service';
@@ -28,7 +28,12 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private sqlite: SqliteService
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state) {
+      this.username = navigation.extras.state['username'];
+    }
+  }
 
   username: string = '';
   deportes: Deporte[] = [];
@@ -76,13 +81,28 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   }
 
   goToCalendar(deporte: Deporte) {
-    this.router.navigate(['home/calendar', { username: this.username, deporte: deporte.nombre, deporte_id: deporte.deporte_id }]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username,
+        deporte: deporte.nombre,
+        deporte_id: deporte.deporte_id
+      }
+    };
+
+    this.router.navigate(['/home/calendar'], navigationExtras);
   }
 
   goToHome() {
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
-      this.router.navigate(['/home', { username: this.username }]);
-    }, 1500);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
+
+    this.router.navigate(['/loading']).then(() => {
+      setTimeout(() => {
+        this.router.navigate(['/home'], navigationExtras);
+      }, 1500);
+    });
   }
 }

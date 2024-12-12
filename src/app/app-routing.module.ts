@@ -5,25 +5,22 @@ import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
   {
-    path:'',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
-    canActivate: [AuthGuard]
-    
-  },
-  {
     path:'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
-    
-    
+  },
+  {
+    path: 'loading',
+    loadChildren: () => import('./loading/loading.module').then(m => m.LoadingModule)
+  },
+  {
+    path:'',
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'loading',
-    loadChildren: () => import('./loading/loading.module').then(m => m.LoadingModule)
   },
   {
     path: 'reservas',
@@ -32,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   }
 ];

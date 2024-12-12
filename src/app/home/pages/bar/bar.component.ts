@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { SqliteService } from '../../../services/sqliteService/sqlite.service';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -38,12 +38,16 @@ export class BarComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      this.username = this.route.snapshot.paramMap.get('username') || '';
-      this.encuentro_id = Number(this.route.snapshot.paramMap.get('encuentro_id'));
-      this.encuentroNombre = this.route.snapshot.paramMap.get('encuentro_nombre') || '';
-      this.deporte = this.route.snapshot.paramMap.get('deporte') || '';
-      this.deporte_id = Number(this.route.snapshot.paramMap.get('deporte_id'));
-      this.fecha = this.route.snapshot.paramMap.get('fecha') || '';
+      // Recuperar datos del history state
+      const state = history.state;
+      if (state) {
+        this.username = state.username;
+        this.encuentro_id = state.encuentro_id;
+        this.encuentroNombre = state.encuentro_nombre;
+        this.deporte = state.deporte;
+        this.deporte_id = state.deporte_id;
+        this.fecha = state.fecha;
+      }
 
       await this.sqlite.init();
       
@@ -88,16 +92,20 @@ export class BarComponent implements OnInit, OnDestroy {
   }
 
   seleccionarBar(bar: Bar) {
-    this.router.navigate(['/home/cantpers', {
-      username: this.username,
-      deporte: this.deporte,
-      bar_id: bar.bar_id,
-      barNombre: bar.nombre,
-      barDireccion: bar.direccion,
-      encuentro_id: this.encuentro_id,
-      encuentroNombre: this.encuentroNombre,
-      fecha: this.fecha
-    }]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username,
+        deporte: this.deporte,
+        bar_id: bar.bar_id,
+        barNombre: bar.nombre,
+        barDireccion: bar.direccion,
+        encuentro_id: this.encuentro_id,
+        encuentroNombre: this.encuentroNombre,
+        fecha: this.fecha
+      }
+    };
+
+    this.router.navigate(['/home/cantpers'], navigationExtras);
   }
 
   ngOnDestroy() {
@@ -107,19 +115,30 @@ export class BarComponent implements OnInit, OnDestroy {
   }
 
   goToHome() {
-    this.router.navigate(['/loading']);
-    setTimeout(() => {
-      this.router.navigate(['/home', {username: this.username}]);
-    }, 1500);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        username: this.username
+      }
+    };
+
+    this.router.navigate(['/loading']).then(() => {
+      setTimeout(() => {
+        this.router.navigate(['/home'], navigationExtras);
+      }, 1500);
+    });
   }
 
   goToEncuentros() {
-      this.router.navigate(['/home/encuentros', {
+    const navigationExtras: NavigationExtras = {
+      state: {
         username: this.username,
         fecha: this.fecha,
         deporte_id: this.deporte_id,
         deporte: this.deporte
-      }]);
+      }
+    };
+
+    this.router.navigate(['/home/encuentros'], navigationExtras);
   }
 }
     
