@@ -2,19 +2,12 @@
   <ion-router-outlet>
     <ion-content>
       <ion-header [translucent]="true">
-        <ion-toolbar class="toolbar-custom">
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title class="ion-text-center">
-            <ion-img src="assets/Match.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
-          </ion-title>
-          <ion-buttons slot="end">
-            <ion-button style="visibility: hidden;">
-              <ion-menu-button></ion-menu-button>
-            </ion-button>
-          </ion-buttons>
+        <ion-toolbar class="toolbar-custom no-shadow">
+          <div class="logo-container">
+            <ion-img src="assets/logo.png" alt="Logo" class="principal-logo" (click)="goToHome()"></ion-img>
+          </div>
         </ion-toolbar>
+      
       </ion-header>
 
       <ion-grid class="content-container">

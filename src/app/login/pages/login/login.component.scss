@@ -1,9 +1,22 @@
+.fondo-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/assets/bglogin.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);
+  z-index: -1;
+}
+
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    background-color: #C7C7C9; 
+    // background-color: #C7C7C9; 
     padding: 20px;
   }
   
@@ -26,24 +39,26 @@ ion-header ion-title {
     font-size: 24px;
     background: #04D976;
     font-weight: bold;
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     margin-top: 20px;
   }
   
 ion-button {
-    --background: #F28627;
-    --border-radius: 20px;
-    --padding-start: 20px;
-    --padding-end: 20px;
-    margin-top: 15px;
-  }
+  --background: #d727f2;
+  --border-radius: 20px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --color: #ffffff;
+  margin-top: 15px;
+  box-shadow: none;
+}
   
  
 .forgot-password {
     margin-top: 15px;
     text-align: center;
-    color: blue;
+    color: rgba(255, 255, 255, 0.425);
     cursor: pointer;
   }
   
@@ -61,7 +76,7 @@ ion-button {
 ion-card {
     width: 100%;
     max-width: 400px;
-    --background: #ffffff; 
+    --background: #000000; 
     border-radius: 15px;
   }
   
@@ -82,8 +97,8 @@ ion-label {
     }
   
 ion-input {
-      color: black;
-      --placeholder-color:black;
+      color: rgb(255, 255, 255);
+      --placeholder-color:rgb(255, 255, 255);
     }
   
 
@@ -91,7 +106,7 @@ ion-input {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    color: #000000;
+    color: #ffffff;
     margin-top: 20px;
     margin-bottom: 20px;
     text-transform: uppercase;

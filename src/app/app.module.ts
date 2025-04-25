@@ -11,6 +11,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { defineCustomElements as jeepSqlite } from 'jeep-sqlite/loader'
 import { HttpClientModule } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 
 
 
@@ -18,13 +19,17 @@ jeepSqlite(window)
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    TabBarComponent, 
+  ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
   ],
+  exports: [TabBarComponent],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync()],
   bootstrap: [AppComponent],
   schemas: [

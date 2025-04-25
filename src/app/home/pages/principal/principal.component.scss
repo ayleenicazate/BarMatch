@@ -1,3 +1,15 @@
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: hsla(0, 0%, 0%, 0.853);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
 ion-content {
     --background: #C7C7C9;
     display: flex;
@@ -7,12 +19,7 @@ ion-content {
   }
 
   
-  .toolbar-custom {
-    --background: rgb(0, 0, 173);
-    --color: white;
-    position: relative;
-    height: 65px;
-  }
+
   
   ion-img.principal-logo {
     display: block;
@@ -40,7 +47,7 @@ ion-content {
     .principal-titulo {
       font-size: 35px;
       font-weight: bold;
-      color: black;
+      color: rgb(255, 255, 255);
       margin-top: 10px;
       margin-bottom: 0;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
@@ -48,7 +55,7 @@ ion-content {
   
     .principal-subtitulo {
       font-size: 15px;
-      color: black;
+      color: rgb(255, 255, 255);
     }
   }
   
@@ -130,3 +137,102 @@ ion-content {
       font-size: 12px;
     }
   }
+
+  .toolbar-custom {
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --background: transparent; // ❗️Evita conflicto con fondo
+    --color: white;
+    box-shadow: none;
+    background-image: url('/assets/navbarbg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10;
+  }
+  
+  
+  .no-shadow {
+    box-shadow: none !important;
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  ion-img.principal-logo {
+    width: 65px;
+    height: 65px;
+    cursor: pointer;
+  }
+  
+  .search-toolbar {
+    --background: rgb(0, 0, 0);
+    padding: 0 10px;
+    border-top: 1px solid transparent;
+  }
+
+  .local-card {
+    width: 90%;
+    max-width: 600px;
+    margin: 12px auto;
+    border-radius: 12px;
+    background: white;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  
+    &:hover {
+      transform: scale(1.02);
+    }
+  
+    ion-item {
+      --background: transparent;
+      display: flex;
+      align-items: center;
+    }
+  
+    ion-thumbnail {
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      overflow: hidden;
+  
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  
+    ion-label {
+      margin-left: 12px;
+  
+      h2 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #000;
+      }
+  
+      p {
+        font-size: 14px;
+        color: #333;
+      }
+    }
+  
+    .rating {
+      font-size: 14px;
+      color: #555;
+      margin-left: 4px;
+      margin-right: 8px;
+    }
+  
+    ion-icon {
+      font-size: 18px;
+    }
+  }
+  

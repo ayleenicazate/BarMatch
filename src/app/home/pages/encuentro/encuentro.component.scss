@@ -15,10 +15,18 @@ ion-content {
 }
 
 .toolbar-custom {
-  --background: rgb(0, 0, 173);
+  height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  --background: transparent; // ❗️Evita conflicto con fondo
   --color: white;
-  position: relative;
-  height: 65px; // Aumenta la altura del toolbar
+  box-shadow: none;
+  background-image: url('/assets/navbarbg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 10;
 }
 
 ion-title {
@@ -35,12 +43,13 @@ ion-title {
 }
 
 ion-img.principal-logo {
-  display: inline-block;
+  display: block;
+  margin: auto;
+  transform: translateX(10px); 
+  pointer-events: auto;
+  width: 65px;
   height: 65px;
   cursor: pointer;
-  transform: translateX(-7.7px);
-  pointer-events: auto; 
-  margin-top: 8px;
 }
 
 .content-container {

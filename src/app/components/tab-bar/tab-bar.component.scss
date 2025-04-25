@@ -1,0 +1,15 @@
+.barmatch-tab-bar {
+    background-color: #000;
+    color: white;
+  
+    ion-tab-button {
+      --color-selected: #ff4081;
+      --color: white;
+      font-size: 14px;
+  
+      ion-icon {
+        font-size: 22px;
+      }
+    }
+  }
+  

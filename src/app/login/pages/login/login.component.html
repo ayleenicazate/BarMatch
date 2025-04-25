@@ -1,10 +1,13 @@
 <ion-app>
   <ion-router-outlet>
     <ion-content>
+
+      <div class="fondo-blur"></div> <!-- Fondo desenfocado -->
+
       <div class="login-container">
         <ion-card>
           <ion-card-header>
-            <img src="assets/Match.png" alt="Logo" class="login-logo" />
+            <img src="assets/logo.png" alt="Logo" class="login-logo" />
             <p class="registro-acceso">¡Bienvenido!</p>       
           </ion-card-header>
           <ion-card-content>
@@ -14,9 +17,11 @@
             <ion-item>
               <ion-input placeholder="Contraseña" [(ngModel)]="password" type="password"></ion-input>
             </ion-item>
-            <div class="login-button-container">
-              <ion-button (click)="login()">Ingresar</ion-button>
-            </div>   
+
+              <div class="login-button-container">
+                <ion-button (click)="login()">Ingresar</ion-button>
+              </div>
+
             <ion-text class="forgot-password" (click)="goToRecuperarPass()">
               <p>¿Olvidaste tu contraseña?</p> 
             </ion-text>

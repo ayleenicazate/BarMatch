@@ -7,10 +7,18 @@ ion-content {
   }
   
   .toolbar-custom {
-    --background: rgb(0, 0, 173);
-    --color: white;
-    position: relative;
     height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --background: transparent; // ❗️Evita conflicto con fondo
+    --color: white;
+    box-shadow: none;
+    background-image: url('/assets/navbarbg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10;
   }
   
   ion-title {
@@ -259,4 +267,16 @@ ion-content {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: hsla(0, 0%, 0%, 0.853);
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
   }

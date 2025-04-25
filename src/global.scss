@@ -37,3 +37,21 @@
 @import "@ionic/angular/css/palettes/dark.system.css";
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+// /* === GLOBAL === */
+// :root {
+//     --ion-background-color: #000000!important;
+//     --ion-text-color: #ffffff!important;
+//     --ion-color-primary: #ff4081!important; /* opcional: personaliza tu color primario */
+//   }
+
+// /* Aplica a todo el contenido */
+// body, ion-app, ion-content {
+//     background-color: var(--ion-background-color) !important;
+//     color: var(--ion-text-color) !important;
+//   }
+  
+//   /* Para todos los textos */
+//   * {
+//     color: var(--ion-text-color);
+//   }

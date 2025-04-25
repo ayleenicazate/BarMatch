@@ -9,6 +9,7 @@ import { EncuentroComponent } from './pages/encuentro/encuentro.component';
 import { BarComponent } from './pages/bar/bar.component';
 import { CantpersComponent } from './pages/cantpers/cantpers.component';
 import { ConfirmacionComponent } from './pages/confirmacion/confirmacion.component';
+// import { TabBarComponent } from './components/tab-bar/tab-bar.component'; // ajusta el path si es necesario
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { ConfirmacionComponent } from './pages/confirmacion/confirmacion.compone
     EncuentroComponent,
     BarComponent,
     CantpersComponent,
-    ConfirmacionComponent
+    ConfirmacionComponent,
   ]
 })
 export class HomeModule { }
